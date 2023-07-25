@@ -82,8 +82,8 @@ function ansShow() {
     const nextList = lists.filter((e) => e.playlist !== nowplay.playlist)
     for (let i = 0; i < 3; i++) {
         const A = Math.floor(Math.random() * nextList.length)
-        if (!ansList.arr.includes(nextList[A])) {
-            ansList.arr.push(nextList[A])
+        if (!ansList.arr.includes({ name: nextList[A].name, song: nextList[A].song })) {
+            ansList.arr.push({ name: nextList[A].name, song: nextList[A].song })
         }
     }
     ansList.arr.push({ name: nowplay.name, song: nowplay.song })
@@ -176,9 +176,13 @@ function ansChoose(i) {
                 @click="ansChoose(i)"
                 v-for="(i, idx) in ansList.arr"
                 :key="idx"
-                class="bg-white rounded-md w-full py-2 hover:bg-pink-500 hover:text-white duration-200"
+                class="rounded-md w-full py-2 hover:bg-pink-500 hover:text-white duration-200"
                 :class="
-                    i.ans !== 2 ? (i.ans == 1 ? 'bg-green-500 text-white' : 'bg-red-500 text-white') : 'text-pink-500'
+                    i.ans !== 2
+                        ? i.ans == 1
+                            ? 'bg-green-500 text-white'
+                            : 'bg-red-500 text-white'
+                        : 'text-pink-500 bg-white'
                 "
             >
                 {{ i.name }} - {{ i.song }}
