@@ -21,7 +21,7 @@ var player
 function start() {
     const nextList = lists.filter((e) => e.playlist !== nowplay.playlist)
     const a = Math.floor(Math.random() * nextList.length)
-    const time = Math.floor(Math.random() * 100) + 1
+    const time = Math.floor(Math.random() * 60) + 1
     nowplay.playlist = nextList[a].playlist
     nowplay.start = randomTime.value ? String(time) : nextList[a].start
     nowplay.name = nextList[a].name
@@ -30,6 +30,7 @@ function start() {
         height: '390',
         width: '640',
         videoId: nowplay.playlist,
+        playerVars: { autoplay: 1, controls: 0 },
         events: {
             onReady: onPlayerReady,
         },
@@ -37,6 +38,7 @@ function start() {
 }
 
 async function next() {
+    show.value = true
     await player.destroy()
     await start()
 }
