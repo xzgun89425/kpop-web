@@ -1,9 +1,15 @@
-<script lang="ts" setup>
+<script setup>
 const { lists } = useBandStore()
 const show = ref(true)
 const loading = ref(false)
 const videoShow = ref(true)
 const randomTime = ref(true)
+const spendTime = ref(0)
+const ansList = reactive({
+    arr: [],
+})
+const ans = ref('')
+const ansText = ref('')
 const url = ref('')
 const nowplay = reactive({
     playlist: '',
@@ -20,6 +26,7 @@ onMounted(() => {
 })
 var player
 function start() {
+    spendTime.value = 0
     loading.value = true
     const nextList = lists.filter((e) => e.playlist !== nowplay.playlist)
     const a = Math.floor(Math.random() * nextList.length)
@@ -37,27 +44,30 @@ function start() {
             onReady: onPlayerReady,
         },
     })
+    ansShow()
 }
 
 async function next() {
+    ansText.value = ''
+    ans.value = ''
     show.value = true
+    spendTime.value = 0
     loading.value = true
+    clearInterval(timer)
     await player.destroy()
     await start()
 }
-
+let timer
 function onPlayerReady(e) {
     e.target.setVolume(70)
     e.target.playVideo()
     e.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
     loading.value = false
+    timer = setInterval(() => {
+        spendTime.value++
+    }, 10)
     // e.target.mute().playVideo()
 }
-// function onPlayerStateChange(e) {
-//     e.target.setVolume(70)
-//     e.target.playVideo()
-//     e.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
-// }
 
 function showAns() {
     show.value = !show.value
@@ -66,29 +76,61 @@ function showAns() {
 function changeFrom() {
     randomTime.value = !randomTime.value
 }
+
+function ansShow() {
+    ansList.arr = []
+    const nextList = lists.filter((e) => e.playlist !== nowplay.playlist)
+    for (let i = 0; i < 3; i++) {
+        const A = Math.floor(Math.random() * nextList.length)
+        if (!ansList.arr.includes(nextList[A])) {
+            ansList.arr.push(nextList[A])
+        }
+    }
+    ansList.arr.push({ name: nowplay.name, song: nowplay.song })
+    ansList.arr.forEach((e) => {
+        e.ans = 2
+    })
+    ansList.arr.sort(() => Math.random() - 0.5)
+}
+
+function ansChoose(i) {
+    if (i.name == nowplay.name && i.song == nowplay.song) {
+        i.ans = 1
+        show.value = false
+        ansText.value = '答對了！！！'
+        clearInterval(timer)
+    } else {
+        i.ans = 0
+        ansText.value = '答錯了！！！'
+    }
+}
 </script>
 
 <template>
-    <div class="w-full h-screen flex justify-center items-center bg-zinc-600 p-4">
+    <div class="w-full h-screen flex flex-col justify-center items-center bg-zinc-600 p-4">
         <div class="flex flex-col items-center space-y-4 w-full lg:w-[600px] bg-zinc-900 p-4 rounded-md">
-            <div class="flex items-center gap-2 text-sm">
-                <label for="timebtn" class="cursor-pointer" :class="randomTime ? 'text-white' : 'text-gray-300'"
-                    >隨機時間模式</label
-                >
-                <div
-                    @click="changeFrom()"
-                    :class="randomTime ? 'bg-gradient-to-br from-pink-500 to-rose-500 ' : 'bg-gray-500'"
-                    class="w-12 h-6 flex justify-center items-center rounded-full cursor-pointer"
-                >
-                    <button
-                        id="timebtn"
-                        name="timebtn"
-                        @click.stop="changeFrom()"
-                        :class="randomTime ? 'translate-x-3' : '-translate-x-3'"
-                        class="w-5 h-5 rounded-full duration-200 bg-white"
-                    ></button>
+            <div class="w-full flex justify-between items-center">
+                <div class="flex items-center gap-2 text-sm">
+                    <label for="timebtn" class="cursor-pointer" :class="randomTime ? 'text-white' : 'text-gray-300'"
+                        >隨機時間模式</label
+                    >
+                    <div
+                        @click="changeFrom()"
+                        :class="randomTime ? 'bg-gradient-to-br from-pink-500 to-rose-500 ' : 'bg-gray-500'"
+                        class="w-12 h-6 flex justify-center items-center rounded-full cursor-pointer"
+                    >
+                        <button
+                            id="timebtn"
+                            name="timebtn"
+                            @click.stop="changeFrom()"
+                            :class="randomTime ? 'translate-x-3' : '-translate-x-3'"
+                            class="w-5 h-5 rounded-full duration-200 bg-white"
+                        ></button>
+                    </div>
                 </div>
+                <p class="text-sm text-white">花費時間 {{ spendTime / 100 }}</p>
             </div>
+
             <h1 class="text-2xl font-bold text-white">KPOP隨機猜歌大賽</h1>
 
             <div class="relative">
@@ -105,10 +147,11 @@ function changeFrom() {
                 <div id="player" class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"></div>
                 <h1 class="text-xl text-white font-bold mt-4">{{ nowplay.name }} - {{ nowplay.song }}</h1>
                 <div
-                    class="absolute z-50 top-0 left-0 text-white w-full h-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-xl"
+                    class="absolute z-50 top-0 left-0 text-white w-full h-full bg-gradient-to-br from-pink-500 to-rose-500 flex flex-col items-center justify-center text-xl"
                     v-show="show"
                 >
-                    {{ loading ? '找歌中...' : '猜不猜的到拉？？' }}
+                    <p>{{ loading ? '找歌中...' : '猜不猜的到拉？？' }}</p>
+                    <p class="text-2xl font-bold mt-5">{{ ansText }}</p>
                 </div>
             </div>
 
@@ -127,6 +170,19 @@ function changeFrom() {
                     {{ nowplay.playlist == '' ? '開始' : '下一首' }}
                 </button>
             </div>
+        </div>
+        <div class="flex flex-col items-center gap-2 py-4 w-full lg:w-[600px]">
+            <button
+                @click="ansChoose(i)"
+                v-for="(i, idx) in ansList.arr"
+                :key="idx"
+                class="bg-white rounded-md w-full py-2 hover:bg-pink-500 hover:text-white duration-200"
+                :class="
+                    i.ans !== 2 ? (i.ans == 1 ? 'bg-green-500 text-white' : 'bg-red-500 text-white') : 'text-pink-500'
+                "
+            >
+                {{ i.name }} - {{ i.song }}
+            </button>
         </div>
     </div>
 </template>
