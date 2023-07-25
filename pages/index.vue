@@ -9,8 +9,15 @@ const nowplay = reactive({
     name: '',
     song: '',
 })
+onMounted(() => {
+    var tag = document.createElement('script')
 
+    tag.src = 'https://www.youtube.com/iframe_api'
+    var firstScriptTag = document.getElementsByTagName('script')[0]
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+})
 function start() {
+    var player
     show.value = false
     const nextList = lists.filter((e) => e.playlist !== nowplay.playlist)
     const a = Math.floor(Math.random() * nextList.length)
@@ -19,7 +26,22 @@ function start() {
     nowplay.start = randomTime.value ? String(time) : nextList[a].start
     nowplay.name = nextList[a].name
     nowplay.song = nextList[a].song
-    url.value = `https://www.youtube.com/embed/${nowplay.playlist}?start=${nowplay.start}&rel=0&autoplay=1&muted=1&loop=1&playlist=${nowplay.playlist}`
+
+    player = new YT.Player('player', {
+        height: '390', // 高度預設值為390，css會調成responsive
+        width: '640', // 寬度預設值為640，css會調成responsive
+        videoId: nowplay.playlist,
+        events: {
+            onReady: onPlayerReady,
+        },
+    })
+    // url.value = `https://www.youtube.com/embed/${nowplay.playlist}?start=${nowplay.start}&rel=0&autoplay=1&muted=1&loop=1&playlist=${nowplay.playlist}`
+}
+
+function onPlayerReady(e) {
+    e.target.setVolume(70)
+    e.target.playVideo()
+    // e.target.mute().playVideo()
 }
 
 function showAns() {
@@ -55,7 +77,7 @@ function changeFrom() {
             <h1 class="text-2xl font-bold text-white">KPOP隨機猜歌大賽</h1>
 
             <div>
-                <iframe
+                <!-- <iframe
                     id="video"
                     v-if="nowplay.playlist !== '' && nowplay.start !== ''"
                     class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"
@@ -64,7 +86,8 @@ function changeFrom() {
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen
-                ></iframe>
+                ></iframe> -->
+                <div id="player" class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"></div>
                 <h1 class="text-xl text-white font-bold mt-4">{{ nowplay.name }} - {{ nowplay.song }}</h1>
             </div>
 
