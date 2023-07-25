@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 const { lists } = useBandStore()
-const show = ref(false)
+const show = ref(true)
+const videoShow = ref(true)
 const randomTime = ref(true)
+const player = ref(null)
 const url = ref('')
 const nowplay = reactive({
     playlist: '',
@@ -17,8 +19,6 @@ onMounted(() => {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
 })
 function start() {
-    var player
-    show.value = false
     const nextList = lists.filter((e) => e.playlist !== nowplay.playlist)
     const a = Math.floor(Math.random() * nextList.length)
     const time = Math.floor(Math.random() * 100) + 1
@@ -27,22 +27,32 @@ function start() {
     nowplay.name = nextList[a].name
     nowplay.song = nextList[a].song
 
-    player = new YT.Player('player', {
-        height: '390', // 高度預設值為390，css會調成responsive
-        width: '640', // 寬度預設值為640，css會調成responsive
+    player.value = new YT.Player('player', {
+        height: '390',
+        width: '640',
         videoId: nowplay.playlist,
         events: {
             onReady: onPlayerReady,
         },
     })
-    // url.value = `https://www.youtube.com/embed/${nowplay.playlist}?start=${nowplay.start}&rel=0&autoplay=1&muted=1&loop=1&playlist=${nowplay.playlist}`
+}
+
+async function next() {
+    await player.value.destroy()
+    await start()
 }
 
 function onPlayerReady(e) {
     e.target.setVolume(70)
     e.target.playVideo()
+    e.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
     // e.target.mute().playVideo()
 }
+// function onPlayerStateChange(e) {
+//     e.target.setVolume(70)
+//     e.target.playVideo()
+//     e.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
+// }
 
 function showAns() {
     show.value = !show.value
@@ -76,7 +86,7 @@ function changeFrom() {
             </div>
             <h1 class="text-2xl font-bold text-white">KPOP隨機猜歌大賽</h1>
 
-            <div>
+            <div class="relative">
                 <!-- <iframe
                     id="video"
                     v-if="nowplay.playlist !== '' && nowplay.start !== ''"
@@ -89,6 +99,12 @@ function changeFrom() {
                 ></iframe> -->
                 <div id="player" class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"></div>
                 <h1 class="text-xl text-white font-bold mt-4">{{ nowplay.name }} - {{ nowplay.song }}</h1>
+                <div
+                    class="absolute z-50 top-0 left-0 text-white w-full h-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-xl"
+                    v-show="show"
+                >
+                    猜不猜的到拉？？
+                </div>
             </div>
 
             <div class="flex justify-between items-center gap-4">
@@ -97,13 +113,13 @@ function changeFrom() {
                     class="bg-gradient-to-br from-pink-500 to-rose-500 text-white w-32 lg:w-40 py-2 rounded-md shadow-lg shadow-rose-800 hover:from-pink-600 hover:to-rose-600 duration-300"
                     @click="showAns()"
                 >
-                    {{ show ? '隱藏' : '看答案' }}
+                    {{ show ? '看答案' : '隱藏' }}
                 </button>
                 <button
                     class="bg-gradient-to-br from-pink-500 to-rose-500 text-white w-32 lg:w-40 py-2 rounded-md shadow-lg shadow-rose-800 hover:from-pink-600 hover:to-rose-600 duration-300"
-                    @click="start()"
+                    @click="nowplay.playlist == '' ? start() : next()"
                 >
-                    {{ nowplay.playlist !== '' ? '下一首' : '開始' }}
+                    {{ nowplay.playlist == '' ? '開始' : '下一首' }}
                 </button>
             </div>
         </div>
