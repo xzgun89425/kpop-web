@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const { lists } = useBandStore()
 const show = ref(true)
+const loading = ref(false)
 const videoShow = ref(true)
 const randomTime = ref(true)
 const url = ref('')
@@ -19,6 +20,7 @@ onMounted(() => {
 })
 var player
 function start() {
+    loading.value = true
     const nextList = lists.filter((e) => e.playlist !== nowplay.playlist)
     const a = Math.floor(Math.random() * nextList.length)
     const time = Math.floor(Math.random() * 60) + 1
@@ -39,6 +41,7 @@ function start() {
 
 async function next() {
     show.value = true
+    loading.value = true
     await player.destroy()
     await start()
 }
@@ -47,6 +50,7 @@ function onPlayerReady(e) {
     e.target.setVolume(70)
     e.target.playVideo()
     e.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
+    loading.value = false
     // e.target.mute().playVideo()
 }
 // function onPlayerStateChange(e) {
@@ -104,7 +108,7 @@ function changeFrom() {
                     class="absolute z-50 top-0 left-0 text-white w-full h-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-xl"
                     v-show="show"
                 >
-                    猜不猜的到拉？？
+                    {{ loading ? '找歌中...' : '猜不猜的到拉？？' }}
                 </div>
             </div>
 
