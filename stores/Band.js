@@ -54,7 +54,7 @@ export const useBandStore = defineStore('band', () => {
         { playlist: '4zwHs2QMvzY', start: '1', song: 'None of My Business', name: 'ITZY' },
         //Le sserafim
         { playlist: 'dZs_cLHfnNA', start: '1', song: "eve psyche and bluebeard's wife", name: 'Le sserafim' },
-        { playlist: 'dZs_cLHfnNA', start: '1', song: 'Antifragile', name: 'Le sserafim' },
+        { playlist: 'pyf8cbqyfPs', start: '1', song: 'Antifragile', name: 'Le sserafim' },
         { playlist: 'UBURTj20HXI', start: '1', song: 'Unforgiven', name: 'Le sserafim' },
         { playlist: '4vbDFu0PUew', start: '1', song: 'Fearless', name: 'Le sserafim' },
         { playlist: 'j73Q_dsLXoQ', start: '1', song: 'Blue Flame', name: 'Le sserafim' },
