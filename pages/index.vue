@@ -56,7 +56,7 @@ function changeFrom() {
                 <iframe
                     v-if="nowplay.playlist !== '' && nowplay.start !== ''"
                     class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"
-                    :src="`https://www.youtube.com/embed/${nowplay.playlist}?start=${nowplay.start}&rel=0&autoplay=1&loop=1&playlist=${nowplay.playlist}`"
+                    :src="`https://www.youtube.com/embed/${nowplay.playlist}?start=${nowplay.start}&rel=0&autoplay=1&muted=1&loop=1&playlist=${nowplay.playlist}`"
                     title="YouTube video player"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
