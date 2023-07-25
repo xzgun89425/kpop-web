@@ -3,7 +3,7 @@ const { lists } = useBandStore()
 const show = ref(true)
 const videoShow = ref(true)
 const randomTime = ref(true)
-const player = ref(null)
+var player
 const url = ref('')
 const nowplay = reactive({
     playlist: '',
@@ -27,7 +27,7 @@ function start() {
     nowplay.name = nextList[a].name
     nowplay.song = nextList[a].song
 
-    player.value = new YT.Player('player', {
+    player = new YT.Player('player', {
         height: '390',
         width: '640',
         videoId: nowplay.playlist,
@@ -38,7 +38,7 @@ function start() {
 }
 
 async function next() {
-    await player.value.destroy()
+    await player.destroy()
     await start()
 }
 
