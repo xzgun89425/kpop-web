@@ -2,6 +2,7 @@
 const { lists } = useBandStore()
 const show = ref(false)
 const randomTime = ref(true)
+const url = ref('')
 const nowplay = reactive({
     playlist: '',
     start: '',
@@ -18,6 +19,7 @@ function start() {
     nowplay.start = randomTime.value ? String(time) : nextList[a].start
     nowplay.name = nextList[a].name
     nowplay.song = nextList[a].song
+    url.value = `https://www.youtube.com/embed/${nowplay.playlist}?start=${nowplay.start}&rel=0&autoplay=1&muted=1&loop=1&playlist=${nowplay.playlist}`
 }
 
 function showAns() {
@@ -52,12 +54,13 @@ function changeFrom() {
             </div>
             <h1 class="text-2xl font-bold text-white">KPOP隨機猜歌大賽</h1>
 
-            <div :class="show ? 'block' : 'hidden'">
+            <div>
                 <iframe
+                    id="video"
                     v-if="nowplay.playlist !== '' && nowplay.start !== ''"
                     class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"
-                    :src="`https://www.youtube.com/embed/${nowplay.playlist}?start=${nowplay.start}&rel=0&autoplay=1&muted=1&loop=1&playlist=${nowplay.playlist}`"
-                    title="YouTube video player"
+                    :src="url"
+                    title="player"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen
