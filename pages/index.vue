@@ -24,7 +24,7 @@ onMounted(() => {
     var firstScriptTag = document.getElementsByTagName('script')[0]
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
 })
-var player
+
 function start() {
     spendTime.value = 0
     loading.value = true
@@ -35,11 +35,11 @@ function start() {
     nowplay.start = randomTime.value ? String(time) : nextList[a].start
     nowplay.name = nextList[a].name
     nowplay.song = nextList[a].song
+    var player
     player = new YT.Player('player', {
         height: '390',
         width: '640',
-        videoId: nowplay.playlist,
-        playerVars: { autoplay: 1, controls: 0 },
+        playerVars: { autoplay: 1 },
         events: {
             onReady: onPlayerReady,
         },
@@ -48,25 +48,26 @@ function start() {
 }
 
 async function next() {
-    ansText.value = ''
-    ans.value = ''
-    show.value = true
-    spendTime.value = 0
-    loading.value = true
-    clearInterval(timer)
-    await player.destroy()
-    await start()
+    // ansText.value = ''
+    // ans.value = ''
+    // show.value = true
+    // spendTime.value = 0
+    // loading.value = true
+    // clearInterval(timer)
+    // await player.destroy()
+    // await start()
+    window.location.reload()
 }
 let timer
 function onPlayerReady(e) {
+    // e.target.mute()
     e.target.setVolume(70)
-    e.target.playVideo()
+    // e.target.playVideo()
     e.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
     loading.value = false
     timer = setInterval(() => {
         spendTime.value++
     }, 10)
-    // e.target.mute().playVideo()
 }
 
 function showAns() {
@@ -176,7 +177,7 @@ function ansChoose(i) {
                 @click="ansChoose(i)"
                 v-for="(i, idx) in ansList.arr"
                 :key="idx"
-                class="rounded-md w-full py-2 hover:bg-pink-500 hover:text-white duration-200"
+                class="rounded-md w-full py-2 hover:bg-pink-500 hover:text-white duration-200 active:scale-95"
                 :class="
                     i.ans !== 2
                         ? i.ans == 1
