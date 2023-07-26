@@ -39,6 +39,7 @@ function start() {
     player = new YT.Player('player', {
         height: '390',
         width: '640',
+        videoId: nowplay.playlist,
         playerVars: { autoplay: 1 },
         events: {
             onReady: onPlayerReady,
