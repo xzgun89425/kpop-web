@@ -24,7 +24,7 @@ onMounted(() => {
     var firstScriptTag = document.getElementsByTagName('script')[0]
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
 })
-
+var player
 function start() {
     spendTime.value = 0
     loading.value = true
@@ -35,7 +35,7 @@ function start() {
     nowplay.start = randomTime.value ? String(time) : nextList[a].start
     nowplay.name = nextList[a].name
     nowplay.song = nextList[a].song
-    var player
+
     player = new YT.Player('player', {
         height: '390',
         width: '640',
@@ -49,15 +49,14 @@ function start() {
 }
 
 async function next() {
-    // ansText.value = ''
-    // ans.value = ''
-    // show.value = true
-    // spendTime.value = 0
-    // loading.value = true
-    // clearInterval(timer)
-    // await player.destroy()
-    // await start()
-    window.location.reload()
+    ansText.value = ''
+    ans.value = ''
+    show.value = true
+    spendTime.value = 0
+    loading.value = true
+    clearInterval(timer)
+    await player.destroy()
+    await start()
 }
 let timer
 function onPlayerReady(e) {
