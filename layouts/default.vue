@@ -2,20 +2,22 @@
 
 <template>
     <div>
-        <!-- <header class="bg-zinc-900 w-full text-white flex justify-between items-center h-16 px-10">
-            <h1>LOGO</h1>
+        <header
+            class="bg-zinc-900 w-full text-white flex justify-between items-center h-16 px-10 sticky top-0 left-0 z-50"
+        >
+            <h1>KPOP</h1>
             <ul class="flex items-center gap-4">
                 <li class="p-3 border-b-2 border-white/0 duration-200 hover:border-white">
-                    <NuxtLink to="/">All Group</NuxtLink>
+                    <NuxtLink to="/">首頁</NuxtLink>
                 </li>
                 <li class="p-3 border-b-2 border-white/0 duration-200 hover:border-white">
-                    <NuxtLink to="/">Song Test</NuxtLink>
+                    <NuxtLink to="/test">小測驗</NuxtLink>
                 </li>
                 <li class="p-3 border-b-2 border-white/0 duration-200 hover:border-white">
-                    <NuxtLink to="/">Member</NuxtLink>
+                    <NuxtLink to="/learn">學習資料</NuxtLink>
                 </li>
             </ul>
-        </header> -->
+        </header>
         <slot />
         <footer></footer>
     </div>
