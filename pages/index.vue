@@ -62,7 +62,7 @@ let timer
 function onPlayerReady(e) {
     // e.target.mute()
     e.target.setVolume(70)
-    // e.target.playVideo()
+    e.target.playVideo()
     e.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
     loading.value = false
     timer = setInterval(() => {
