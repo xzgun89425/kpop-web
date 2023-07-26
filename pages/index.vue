@@ -135,16 +135,6 @@ function ansChoose(i) {
             <h1 class="text-2xl font-bold text-white">KPOP隨機猜歌大賽</h1>
 
             <div class="relative">
-                <!-- <iframe
-                    id="video"
-                    v-if="nowplay.playlist !== '' && nowplay.start !== ''"
-                    class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"
-                    :src="url"
-                    title="player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                ></iframe> -->
                 <div id="player" class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"></div>
                 <h1 class="text-xl text-white font-bold mt-4">{{ nowplay.name }} - {{ nowplay.song }}</h1>
                 <div
@@ -165,10 +155,18 @@ function ansChoose(i) {
                     {{ show ? '看答案' : '隱藏' }}
                 </button>
                 <button
+                    v-if="nowplay.playlist == ''"
                     class="bg-gradient-to-br from-pink-500 to-rose-500 text-white w-32 lg:w-40 py-2 rounded-md shadow-lg shadow-rose-800 hover:from-pink-600 hover:to-rose-600 duration-300"
-                    @click="nowplay.playlist == '' ? start() : next()"
+                    @click="start()"
                 >
-                    {{ nowplay.playlist == '' ? '開始' : '下一首' }}
+                    開始
+                </button>
+                <button
+                    v-if="ansText == '答對了！！！' && nowplay.playlist !== ''"
+                    class="bg-gradient-to-br from-pink-500 to-rose-500 text-white w-32 lg:w-40 py-2 rounded-md shadow-lg shadow-rose-800 hover:from-pink-600 hover:to-rose-600 duration-300"
+                    @click="next()"
+                >
+                    下一首
                 </button>
             </div>
         </div>

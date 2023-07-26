@@ -10,7 +10,7 @@ export const useBandStore = defineStore('band', () => {
         { playlist: '6oanIo_2Z4Q', start: '1', song: 'Lion', name: '(G)-IDLE' },
         { playlist: '9mQk7Evt6Vs', start: '1', song: 'Latata', name: '(G)-IDLE' },
         { playlist: 'Si5pQHRRH5w', start: '1', song: 'My Bag', name: '(G)-IDLE' },
-        { playlist: 'om3n2ni8luE', start: '1', song: 'Latata', name: '(G)-IDLE' },
+        { playlist: 'om3n2ni8luE', start: '1', song: 'oh my god', name: '(G)-IDLE' },
         { playlist: 'I66oFXdf0KU', start: '1', song: 'Uh Oh', name: '(G)-IDLE' },
         { playlist: 'iOoeLYqx3yI', start: '1', song: 'All Night', name: '(G)-IDLE' },
         { playlist: '2cevbhEqQF4', start: '1', song: 'Senorita', name: '(G)-IDLE' },
