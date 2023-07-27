@@ -12,9 +12,7 @@ html {
 .Poppins {
   font-family: 'Poppins';
 }
-.NotoSansTC {
-  font-family: 'NotoSansTC';
-}
+
 
 @font-face {
   font-family: 'Optima';
@@ -25,10 +23,7 @@ html {
   font-family: 'Poppins';
   src: url('~/assets/fonts/Poppins-Regular.ttf') format('truetype');
 }
-@font-face {
-  font-family: 'NotoSansTC';
-  src: url('~/assets/fonts/NotoSansTC-Regular.ttf') format('truetype');
-}
+
 
 @layer components {
     .bg-primary {
