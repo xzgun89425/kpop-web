@@ -7,6 +7,7 @@ export const useTestStore = defineStore('test', () => {
         { id: 'jaychou', testName: '周杰倫猜歌測驗', img: 'male/jaychou.png', detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你是周博士還是周碩士！', device: 'desktop', level: '難', name: '周', title: '周杰倫', },
         { id: 'taiwanband', testName: '台灣獨立樂團猜歌測驗', img: 'group/taiwanband.jpg', detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你的獨立樂團牌位！', device: 'desktop', level: '難', name: '台灣獨立樂團', title: '台灣獨立樂團' },
         { id: 'anime', testName: '動漫猜歌測驗', img: 'female/anime.jpg', detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你的動漫牌位！', device: 'desktop', level: '難', name: '動漫', title: '動漫' },
+        { id: 'tiktok', testName: '抖音熱門歌曲2023', img: 'group/tiktok.jpg', detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你的抖音牌位！', device: 'desktop', level: '難', name: '抖音熱門歌曲2023', title: '抖音熱門歌曲2023' },
     ])
 
     return {
