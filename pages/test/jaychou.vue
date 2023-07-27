@@ -1,6 +1,6 @@
 <script setup>
-import file from '~/json/kpopTop100.json'
-const listsHard = file[0].SongList
+import file from '~/json/jaychou.json'
+const jaychous = file[0].SongList
 const qustime = ref(10)
 const show = ref(true)
 const loading = ref(false)
@@ -35,7 +35,7 @@ function start() {
     }
     spendTime.value = 0
     loading.value = true
-    const nextList = listsHard.filter((e) => e.SongID !== nowplay.playlist)
+    const nextList = jaychous.filter((e) => e.SongID !== nowplay.playlist)
     const a = Math.floor(Math.random() * nextList.length)
     const time = Math.floor(Math.random() * 60) + 1
     nowplay.playlist = nextList[a].SongID
@@ -102,7 +102,7 @@ function changeFrom() {
 
 function ansShow() {
     ansList.arr = []
-    const nextList = listsHard.filter((e) => e.SongID !== nowplay.playlist)
+    const nextList = jaychous.filter((e) => e.SongID !== nowplay.playlist)
     while (ansList.arr.length < 3) {
         const A = Math.floor(Math.random() * nextList.length)
         if (ansList.arr.filter((e) => e.song == nextList[A].SongTitle).length == 0) {
@@ -133,8 +133,8 @@ function ansChoose(i) {
 </script>
 
 <template>
-    <div class="w-full h-screen flex flex-col justify-center items-center bg-zinc-600 p-4">
-        <!-- <div class="fixed top-0 left-0 w-auto bg-zinc-900 text-white p-4">
+    <div class="w-full h-screen flex flex-col justify-center items-center bg-zinc-800 p-4">
+        <!-- <div class="fixed top-20 left-0 w-auto bg-zinc-900 text-white p-4">
             <h1>得分</h1>
             <ul>
                 <li v-for="(i, idx) in score.arr" :key="idx">{{ idx + 1 }}：{{ i / 100 }}</li>
@@ -145,9 +145,9 @@ function ansChoose(i) {
         <p class="text-sm text-white my-4">
             評分機制：(每題答題時間的總和 / 題數)<br />
             神：小於1.5秒<br />
-            女團博士：1.5 ~ 2.5秒<br />
-            女團碩士：2.5 ~ 3.5秒<br />
-            女團大學生：3.5 ~ 4秒 <br />
+            周博士：1.5 ~ 2.5秒<br />
+            周碩士：2.5 ~ 3.5秒<br />
+            周大學生：3.5 ~ 4秒 <br />
             再練練：大於4秒
         </p>
         <div class="flex flex-col items-center space-y-4 w-full lg:w-[600px] bg-zinc-900 p-4 rounded-md">
@@ -185,7 +185,7 @@ function ansChoose(i) {
                 <p class="text-sm text-white">花費時間 {{ spendTime / 100 }}</p>
             </div>
 
-            <h1 class="text-2xl font-bold text-white">KPOP隨機猜歌測驗</h1>
+            <h1 class="text-2xl font-bold text-white">周杰倫隨機猜歌測驗</h1>
 
             <div class="relative">
                 <div id="player" class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"></div>
@@ -201,11 +201,11 @@ function ansChoose(i) {
                             total / 100 / qustime < 1.5
                                 ? '你是神'
                                 : total / 100 / qustime < 2.5
-                                ? '你是女團博士'
+                                ? '你是周博士'
                                 : total / 100 / qustime < 3.5
-                                ? '你是女團碩士'
+                                ? '你是周碩士'
                                 : total / 100 / qustime < 4
-                                ? '你是女團大學生'
+                                ? '你是周大學生'
                                 : '你需要再練練'
                         }}
                     </p>

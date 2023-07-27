@@ -38,7 +38,7 @@ function start() {
     const a = Math.floor(Math.random() * nextList.length)
     const time = Math.floor(Math.random() * 60) + 1
     nowplay.playlist = nextList[a].playlist
-    nowplay.start = randomTime.value ? String(time) : nextList[a].start
+    nowplay.start = randomTime.value ? String(time) : 1
     nowplay.name = nextList[a].name
     nowplay.song = nextList[a].song
 

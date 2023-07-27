@@ -13,10 +13,14 @@ export default defineNuxtConfig({
   modules: [
       [
           '@pinia/nuxt',
+          '@nuxt/content',
           {
               autoImports: ['defineStore', 'acceptHMRUpdate'],
           },
       ],
   ],
+  content: {
+    // https://content.nuxtjs.org/api/configuration
+  },
   devtools: { enabled: true }
 })

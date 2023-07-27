@@ -24,6 +24,15 @@ const list = reactive([
         device: 'desktop',
         level: '難',
     },
+    {
+        id: 3,
+        name: '周杰倫猜歌測驗',
+        img: '/img/male/jaychou.png',
+        src: 'jaychou',
+        detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你是周博士還是周碩士！',
+        device: 'desktop',
+        level: '難',
+    },
     // {
     //     id: 2,
     //     name: '2023韓國K-POP女團認臉測驗',
@@ -61,12 +70,15 @@ function goPage(src) {
                 >
                 <span
                     :class="i.level == '易' ? 'bg-green-500' : i.level == '中' ? 'bg-amber-500' : 'bg-red-500'"
-                    class="absolute -top-2 -left-2 text-white rounded-full text-lg font-bold w-10 h-10 flex justify-center items-center"
+                    class="absolute -top-2 -left-2 z-30 text-white rounded-full text-lg font-bold w-10 h-10 flex justify-center items-center"
                     >{{ i.level }}</span
                 >
                 <div>
-                    <div class="w-full h-40 md:h-60 flex justify-center items-center">
+                    <div class="w-full h-40 md:h-60 flex justify-center items-center relative">
                         <img :src="i.img" class="w-full h-full object-cover" alt="" />
+                        <p v-show="i.src == 'jaychou'" class="absolute bottom-4 text-white font-bold text-xl">
+                            吵甚麼吵，賴清德
+                        </p>
                     </div>
                     <h1 class="text-white text-xl font-bold my-4 h-14 overflow-hidden">{{ i.name }}</h1>
                     <p class="text-gray-400 text-sm truncate">{{ i.detail }}</p>
