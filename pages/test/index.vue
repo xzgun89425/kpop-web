@@ -27,13 +27,13 @@ function goPage(src) {
                     class="absolute -top-4 left-[calc(50%-40px)] bg-primary text-white text-sm px-3 py-1 rounded-full shadow-md shadow-gray-300"
                     >{{ item.text }}</span
                 >
-                <span
+                <!-- <span
                     :class="i.level == '易' ? 'bg-green-500' : i.level == '中' ? 'bg-amber-500' : 'bg-red-500'"
                     class="absolute -top-2 -left-2 z-30 text-white rounded-full text-lg font-bold w-10 h-10 flex justify-center items-center shadow-md shadow-gray-300"
                     >{{ i.level }}</span
-                >
+                > -->
                 <div>
-                    <div class="w-full h-40 md:h-60 flex justify-center items-center relative">
+                    <div class="aspect-w-4 aspect-h-4 flex justify-center items-center relative">
                         <img :src="`/img/${i.img}`" class="w-full h-full object-cover" alt="" />
                         <p v-show="i.id == 'jaychou'" class="absolute bottom-4 text-white font-bold text-xl">
                             吵甚麼吵，賴清德

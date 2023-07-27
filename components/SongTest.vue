@@ -17,22 +17,27 @@ const listsHard = props.lists
 const qustime = ref(10)
 const show = ref(true)
 const loading = ref(false)
-const videoShow = ref(true)
+
 const randomTime = ref(true)
 const spendTime = ref(0)
+
 const ansList = reactive({
     arr: [],
 })
 const score = reactive({ arr: [] })
+const isAns = ref(false)
 const ans = ref('')
 const ansText = ref('')
 const total = ref(0)
+const mistakeTime = ref(0)
+
 const nowplay = reactive({
     playlist: '',
     start: '',
     name: '',
     song: '',
 })
+
 onMounted(() => {
     var tag = document.createElement('script')
 
@@ -40,6 +45,7 @@ onMounted(() => {
     var firstScriptTag = document.getElementsByTagName('script')[0]
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
 })
+
 var player
 function start() {
     if (score.arr.length == qustime.value) {
@@ -63,12 +69,14 @@ function start() {
         playerVars: { autoplay: 1 },
         events: {
             onReady: onPlayerReady,
+            onError: onPlayerError,
         },
     })
     ansShow()
 }
 
 async function next() {
+    isAns.value = false
     if (score.arr.length == qustime.value) {
         ansText.value = ''
         ans.value = ''
@@ -93,16 +101,21 @@ async function next() {
         await start()
     }
 }
+
 let timer
 function onPlayerReady(e) {
     // e.target.mute()
-    e.target.setVolume(70)
+    e.target.setVolume(90)
     e.target.playVideo()
     e.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
     loading.value = false
     timer = setInterval(() => {
         spendTime.value++
     }, 10)
+}
+function onPlayerError(e) {
+    // e.target.mute()
+    next()
 }
 
 function showAns() {
@@ -131,6 +144,7 @@ function ansShow() {
 
 function ansChoose(i) {
     if (i.name == nowplay.name && i.song == nowplay.song) {
+        isAns.value = true
         i.ans = 1
         show.value = false
         ansText.value = '答對了！！！'
@@ -139,7 +153,7 @@ function ansChoose(i) {
         clearInterval(timer)
     } else {
         i.ans = 0
-        total.value = total.value + 100
+        mistakeTime.value += 100
         ansText.value = '答錯了！！！'
     }
 }
@@ -147,23 +161,19 @@ function ansChoose(i) {
 
 <template>
     <div class="w-full h-full flex flex-col justify-center items-center bg-gray-100 p-4">
-        <!-- <div class="fixed top-0 left-0 w-auto bg-zinc-900 text-white p-4">
+        <!-- <div class="fixed top-14 left-0 w-auto bg-white text-gray-900 p-4">
             <h1>得分</h1>
             <ul>
                 <li v-for="(i, idx) in score.arr" :key="idx">{{ idx + 1 }}：{{ i / 100 }}</li>
             </ul>
-            <div>總秒數：{{ total / 100 }}</div>
+            <div>
+                總秒數：{{ total / 100 }}
+                <span v-show="mistakeTime > 0" class="text-red-500">+{{ mistakeTime / 100 }}</span>
+            </div>
         </div> -->
-        <h1 class="text-2xl font-bold text-gray-900">{{ title }}隨機猜歌測驗</h1>
-        <!-- <p class="text-rose-400 text-xl font-bold">注意：答題選錯一次，答題總時數會加1秒。</p>
-        <p class="text-sm text-gray-800 my-4">
-            評分機制：(每題答題時間的總和 / 題數)<br />
-            神：小於2秒<br />
-            {{ name }}博士：2 ~ 2.5秒<br />
-            {{ name }}碩士：2.5 ~ 3.5秒<br />
-            {{ name }}大學生：3.5 ~ 4秒 <br />
-            再練練：大於4秒
-        </p> -->
+
+        <h1 class="text-2xl font-bold text-gray-900">{{ title }}猜歌測驗</h1>
+
         <div class="w-full lg:w-[800px] my-4">
             <div class="flex justify-between w-full items-center gap-2 text-sm text-gray-900">
                 <div class="flex rounded overflow-hidden divide divide-gray-100 shadow shadow-gray-300">
@@ -195,8 +205,9 @@ function ansChoose(i) {
                     <h1 v-show="ansList.arr.length > 0" class="text-sm">剩餘題數：{{ qustime - score.arr.length }}</h1>
                 </div>
             </div>
-            <!-- <p class="text-sm text-white">花費時間 {{ spendTime / 100 }}</p> -->
+            <p class="text-sm text-gray-900 mt-4">花費時間 {{ spendTime / 100 }}</p>
         </div>
+
         <div class="flex flex-col items-center space-y-4 w-full lg:w-[800px] bg-white p-4 rounded-md">
             <div class="relative">
                 <div class="aspect-w-16 aspect-h-9 w-[90vw] lg:w-[800px]">
@@ -205,11 +216,11 @@ function ansChoose(i) {
                 <!-- <div class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"></div> -->
                 <h1 class="text-xl text-white font-bold mt-4">{{ nowplay.name }} - {{ nowplay.song }}</h1>
                 <div
-                    class="absolute z-50 top-0 left-0 text-white w-full h-full bg-gradient-to-br from-pink-500 to-rose-500 flex flex-col items-center justify-center text-xl"
+                    class="absolute z-50 top-0 left-0 text-white w-full h-full bg-primary flex flex-col items-center justify-center text-xl"
                     v-show="show"
                 >
                     <p v-show="score.arr.length !== qustime">{{ loading ? '找歌中...' : '猜不猜的到拉？？' }}</p>
-                    <p class="text-2xl font-bold mt-5">{{ ansText }}</p>
+                    <!-- <p class="text-2xl font-bold mt-5">{{ ansText }}</p> -->
                     <p v-show="score.arr.length == qustime">
                         {{
                             total / 100 / qustime < 2
@@ -230,21 +241,21 @@ function ansChoose(i) {
             <div class="flex justify-between items-center gap-4 w-full">
                 <button
                     v-if="nowplay.playlist !== '' && nowplay.start !== ''"
-                    class="bg-primary text-white w-32 lg:w-40 py-2 rounded-md hover:bg-primaryHover duration-300"
+                    class="bg-primary text-white w-32 py-2 rounded-md hover:bg-primaryHover duration-300"
                     @click="showAns()"
                 >
                     {{ show ? '看答案' : '隱藏' }}
                 </button>
                 <button
                     v-if="nowplay.playlist == ''"
-                    class="bg-primary text-white w-32 lg:w-40 py-2 rounded-md hover:bg-primaryHover duration-300"
+                    class="bg-primary text-white w-full py-2 rounded-md hover:bg-primaryHover duration-300"
                     @click="start()"
                 >
                     開始
                 </button>
                 <button
                     v-if="ansText == '答對了！！！' && nowplay.playlist !== ''"
-                    class="bg-primary text-white w-32 lg:w-40 py-2 rounded-md hover:bg-primaryHover duration-300"
+                    class="bg-primary text-white w-32 py-2 rounded-md hover:bg-primaryHover duration-300"
                     @click="next()"
                 >
                     {{ score.arr.length == qustime ? '查看結果' : '下一首' }}
@@ -253,10 +264,11 @@ function ansChoose(i) {
         </div>
         <div class="flex flex-col items-center gap-2 py-4 w-full lg:w-[800px]">
             <button
+                :disabled="isAns"
                 @click="ansChoose(i)"
                 v-for="(i, idx) in ansList.arr"
                 :key="idx"
-                class="rounded-md w-full py-2 bg-gray-200 hover:bg-primary hover:text-white duration-200 active:scale-95"
+                class="rounded-md w-full py-2 bg-gray-200 duration-200 active:scale-95 hover:cursor-pointer"
                 :class="
                     i.ans !== 2
                         ? i.ans == 1

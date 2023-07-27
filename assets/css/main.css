@@ -6,6 +6,30 @@ html {
     background-color: #f3f4f6;
 }
 
+.Optima {
+  font-family: 'Optima';
+}
+.Poppins {
+  font-family: 'Poppins';
+}
+.NotoSansTC {
+  font-family: 'NotoSansTC';
+}
+
+@font-face {
+  font-family: 'Optima';
+  src: url('~/assets/fonts/optima.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('~/assets/fonts/Poppins-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'NotoSansTC';
+  src: url('~/assets/fonts/NotoSansTC-Regular.ttf') format('truetype');
+}
+
 @layer components {
     .bg-primary {
       @apply bg-gradient-to-br from-sky-500 to-cyan-500;
