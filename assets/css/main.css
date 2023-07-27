@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+    background-color: #f3f4f6;
+}
+
+@layer components {
+    .bg-primary {
+      @apply bg-gradient-to-br from-sky-500 to-cyan-500;
+    }
+    .bg-primaryHover {
+      @apply bg-gradient-to-br from-sky-600 to-cyan-600;
+    }
+  }

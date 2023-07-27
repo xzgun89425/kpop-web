@@ -11,12 +11,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '',
-        primaryHover: '',
-        disabled: '',
+        primary: '#06b6d4',
+        primaryHover: '#0891b2',
+        disabled: '#cffafe',
       }
     },
   },
-  plugins: [],
+  corePlugins: {
+    aspectRatio: false,
+  },
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }
 
