@@ -5,8 +5,10 @@
         <header
             class="bg-gradient-to-br from-sky-500 to-cyan-500 w-full text-white flex justify-between items-center h-16 px-10 sticky top-0 left-0 z-50"
         >
-            <h1 class="text-2xl Poppins font-medium"><NuxtLink to="/">K&K</NuxtLink></h1>
-            <ul class="flex items-center gap-4">
+            <NuxtLink to="/">
+                <img src="/img/kelywhy.png" class="h-8" alt="" />
+            </NuxtLink>
+            <ul class="text-lg flex items-center gap-4">
                 <li class="p-3 border-b-2 border-white/0 duration-200 hover:border-white">
                     <NuxtLink to="/">首頁</NuxtLink>
                 </li>
