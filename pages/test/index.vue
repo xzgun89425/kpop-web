@@ -34,8 +34,8 @@ function goPage(src) {
                 >
                 <div>
                     <div class="w-full h-40 md:h-60 flex justify-center items-center relative">
-                        <img :src="i.img" class="w-full h-full object-cover" alt="" />
-                        <p v-show="i.src == 'jaychou'" class="absolute bottom-4 text-white font-bold text-xl">
+                        <img :src="`/img/${i.img}`" class="w-full h-full object-cover" alt="" />
+                        <p v-show="i.id == 'jaychou'" class="absolute bottom-4 text-white font-bold text-xl">
                             吵甚麼吵，賴清德
                         </p>
                     </div>
