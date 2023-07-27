@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-    <div class="bg-gray-100">
+    <div class="bg-gray-100 NotoSansTC">
         <header
             class="bg-gradient-to-br from-sky-500 to-cyan-500 w-full text-white flex justify-between items-center h-16 px-10 sticky top-0 left-0 z-50"
         >

@@ -268,7 +268,7 @@ function ansChoose(i) {
                 @click="ansChoose(i)"
                 v-for="(i, idx) in ansList.arr"
                 :key="idx"
-                class="rounded-md w-full py-2 bg-gray-200 duration-200 active:scale-95 hover:cursor-pointer"
+                class="rounded-md w-full p-2 bg-gray-200 duration-200 active:scale-95 hover:cursor-pointer"
                 :class="
                     i.ans !== 2
                         ? i.ans == 1

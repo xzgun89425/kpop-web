@@ -35,7 +35,7 @@ function goPage(src) {
                 <div>
                     <div class="aspect-w-4 aspect-h-4 flex justify-center items-center relative">
                         <img :src="`/img/${i.img}`" class="w-full h-full object-cover" alt="" />
-                        <p v-show="i.id == 'jaychou'" class="absolute bottom-4 text-white font-bold text-xl">
+                        <p v-show="i.id == 'jaychou'" class="absolute bottom-0 text-white font-bold text-xl">
                             吵甚麼吵，賴清德
                         </p>
                     </div>
