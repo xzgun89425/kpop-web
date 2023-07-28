@@ -13,7 +13,7 @@ function goPage(src) {
 </script>
 
 <template>
-    <div class="w-full bg-gray-100 flex flex-col items-center justify-start">
+    <div class="w-full bg-gray-200 flex flex-col items-center justify-start">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 p-8 max-w-7xl w-full">
             <div
                 v-for="i in testlist"
