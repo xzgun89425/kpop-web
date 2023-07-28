@@ -8,7 +8,7 @@ const devices = reactive([
 const { testlist } = useTestStore()
 
 function goPage(src) {
-    router.push(`/test/${src}`)
+    router.push(`/competition/${src}`)
 }
 </script>
 
