@@ -144,14 +144,7 @@ function chooseMode(value) {
             </button>
         </div>
     </div>
-    <SongTime v-if="!loading && step == 3 && mode == 'time'" :lists="lists.arr" :title="title" :name="name"></SongTime>
-    <SongNormal
-        v-if="!loading && step == 3 && mode == 'normal'"
-        :lists="lists.arr"
-        :title="title"
-        :name="name"
-    ></SongNormal>
-    <SongAll v-if="!loading && step == 3 && mode == 'all'" :lists="lists.arr" :title="title" :name="name"></SongAll>
+    <Song v-if="!loading && step == 3" :mode="mode" :lists="lists.arr" :title="title" :name="name"></Song>
 </template>
 
 <style></style>

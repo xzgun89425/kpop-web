@@ -94,16 +94,6 @@ async function next() {
         nowplay.song = ''
         nowplay.playlist = ''
         await player.destroy()
-        // router.push({
-        //     path: '/result',
-        //     query: {
-        //         total: total.value,
-        //         name: props.name,
-        //         title: props.title,
-        //         qustime: qustime.value,
-        //         mode: 'all',
-        //     },
-        // })
     } else {
         ansText.value = ''
         ans.value = ''
@@ -171,6 +161,7 @@ function ansChoose(i) {
         isAns.value = true
         i.ans = 1
         show.value = false
+
         score.arr.push(theAnsValue.value)
         total.value += theAnsValue.value
     } else {
@@ -278,30 +269,6 @@ function reset() {
                     <p v-show="score.arr.length !== qustime" class="text-sm lg:text-base">
                         {{ loading ? '找歌中...' : '猜不猜的到拉？？' }}
                     </p>
-                    <!-- <p class="text-2xl font-bold mt-5">{{ ansText }}</p> -->
-                    <p v-show="score.arr.length == qustime">
-                        {{
-                            total >= 95
-                                ? `你是${name}菁英`
-                                : total >= 85
-                                ? `你是${name}大師`
-                                : total >= 75
-                                ? `你是${name}金牌`
-                                : total >= 65
-                                ? `你是${name}銀牌`
-                                : total >= 20
-                                ? `你是${name}銅牌`
-                                : `你是${name}菜雞`
-                        }}
-                    </p>
-                    <p v-show="score.arr.length == qustime">總分為{{ total }}分</p>
-                    <button
-                        v-if="score.arr.length == qustime"
-                        @click="reset()"
-                        class="bg-white text-primary px-4 py-1 rounded mt-4 hover:bg-gray-100"
-                    >
-                        再測一次
-                    </button>
 
                     <div class="w-full flex flex-col items-center gap-2 p-4 lg:w-[800px]">
                         <button
