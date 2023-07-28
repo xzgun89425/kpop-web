@@ -14,11 +14,11 @@ function goPage(src) {
 
 <template>
     <div class="w-full bg-gray-200 flex flex-col items-center justify-start">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 p-8 max-w-7xl w-full">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-8 lg:gap-8 px-2 py-8 lg:p-8 max-w-7xl w-full">
             <div
                 v-for="i in testlist"
                 :key="i.id"
-                class="col-span-1 bg-white h-auto p-4 rounded-md relative flex flex-col justify-between shadow-md shadow-gray-300"
+                class="col-span-1 bg-white h-auto p-4 rounded relative flex flex-col justify-between shadow-md shadow-gray-300"
             >
                 <span
                     v-for="(item, idx) in devices"
@@ -39,13 +39,17 @@ function goPage(src) {
                             吵甚麼吵，賴清德
                         </p>
                     </div>
-                    <h1 class="text-gray-900 text-xl font-bold my-4 h-14 overflow-hidden">{{ i.testName }}</h1>
+                    <h1
+                        class="text-gray-900 text-base lg:text-xl font-bold my-4 h-12 lg:h-14 text-ellipsis overflow-hidden"
+                    >
+                        {{ i.testName }}
+                    </h1>
                     <p class="text-gray-500 text-sm truncate">{{ i.detail }}</p>
                 </div>
                 <div class="text-right w-full mt-4">
                     <button
                         @click="goPage(i.id)"
-                        class="bg-primary text-white hover:bg-primaryHover duration-200 rounded-md w-full py-2"
+                        class="bg-primary text-white hover:bg-primaryHover duration-200 rounded w-full py-2"
                     >
                         測驗去
                     </button>

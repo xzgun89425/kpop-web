@@ -1,4 +1,5 @@
 <script setup>
+const router = useRouter()
 const props = defineProps({
     lists: {
         type: Array,
@@ -13,9 +14,10 @@ const props = defineProps({
         default: '',
     },
 })
+const status = ref(0)
 const listsHard = props.lists
 const qustime = ref(10)
-const show = ref(true)
+const show = ref(false)
 const loading = ref(false)
 
 const randomTime = ref(true)
@@ -48,9 +50,13 @@ onMounted(() => {
 
 var player
 function start() {
+    show.value = true
     if (score.arr.length == qustime.value) {
         score.arr = []
         total.value = 0
+        status.value = 2
+    } else {
+        status.value = 1
     }
     spendTime.value = 0
     loading.value = true
@@ -73,10 +79,10 @@ function start() {
             onError: onPlayerError,
         },
     })
-    ansShow()
 }
 
 async function next() {
+    ansList.arr = []
     isAns.value = false
     if (score.arr.length == qustime.value) {
         ansText.value = ''
@@ -89,8 +95,17 @@ async function next() {
         nowplay.name = ''
         nowplay.song = ''
         nowplay.playlist = ''
-        ansList.arr = []
         await player.destroy()
+        // router.push({
+        //     path: '/result',
+        //     query: {
+        //         total: total.value,
+        //         name: props.name,
+        //         title: props.title,
+        //         qustime: qustime.value,
+        //         mode: 'time',
+        //     },
+        // })
     } else {
         ansText.value = ''
         ans.value = ''
@@ -120,6 +135,7 @@ function onPlayerStateChange(event) {
         loading.value = true
         clearInterval(timer)
     } else if (event.data == 1) {
+        ansShow()
         loading.value = false
         timer = setInterval(() => {
             spendTime.value++
@@ -152,7 +168,6 @@ function changeFrom() {
 }
 
 function ansShow() {
-    ansList.arr = []
     const nextList = listsHard.filter((e) => e.SongID !== nowplay.playlist)
     while (ansList.arr.length < 3) {
         const A = Math.floor(Math.random() * nextList.length)
@@ -163,6 +178,7 @@ function ansShow() {
     ansList.arr.push({ name: nowplay.name, song: nowplay.song })
     ansList.arr.forEach((e) => {
         e.ans = 2
+        e.clicked = false
     })
     ansList.arr.sort(() => Math.random() - 0.5)
 }
@@ -177,14 +193,20 @@ function ansChoose(i) {
         total.value += spendTime.value
         clearInterval(timer)
     } else {
-        i.ans = 0
-        mistakeTime.value += 200
-        ansText.value = '答錯了！！！'
+        if (!isAns.value) {
+            i.ans = 0
+            i.clicked = true
+            mistakeTime.value += 200
+        }
     }
 }
 
 function setQusTime(value) {
     qustime.value = value
+}
+
+function reset() {
+    router.go(0)
 }
 </script>
 
@@ -252,26 +274,32 @@ function setQusTime(value) {
                     <h1 v-show="ansList.arr.length > 0" class="text-sm">剩餘題數：{{ qustime - score.arr.length }}</h1>
                 </div> -->
             </div>
-            <div class="w-full flex justify-between items-center">
-                <p class="text-sm text-gray-900 mt-4">花費時間 {{ spendTime / 100 }}</p>
+            <div class="w-full flex justify-between items-center mt-4">
+                <p class="text-sm text-gray-900">花費時間 {{ spendTime / 100 }}</p>
                 <h1 v-show="ansList.arr.length > 0" class="text-sm">剩餘題數：{{ qustime - score.arr.length }}</h1>
             </div>
         </div>
 
-        <div class="flex flex-col items-center space-y-4 w-full lg:w-[800px] bg-white p-4 rounded-md">
+        <div
+            :class="status == 1 ? 'p-4' : 'p-0'"
+            class="flex flex-col items-center w-full lg:w-[800px] h-full bg-white rounded-md"
+        >
             <div class="relative">
-                <div class="aspect-w-16 aspect-h-9 w-[90vw] lg:w-[800px]">
+                <div :class="status == 1 ? ' w-[90vw] lg:w-[800px]' : 'w-0'" class="aspect-w-16 aspect-h-9">
                     <div id="player" class="w-full"></div>
                 </div>
                 <!-- <div class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"></div> -->
-                <h1 class="text-base lg:text-xl text-gray-900 font-bold mt-4 px-0 lg:px-4">
+                <h1 v-if="status == 1" class="text-base lg:text-xl text-gray-900 font-bold my-4 px-2 lg:px-4">
                     {{ nowplay.name }} - {{ nowplay.song }}
                 </h1>
                 <div
-                    class="absolute z-40 top-0 left-0 text-white w-full h-full bg-primary flex flex-col items-center justify-center text-xl"
+                    class="fixed z-50 top-[64px] left-0 text-white w-full bg-primary h-[calc(100vh-64px)] flex flex-col items-center justify-center text-xl"
                     v-show="show"
                 >
-                    <p v-show="score.arr.length !== qustime">{{ loading ? '找歌中...' : '猜不猜的到拉？？' }}</p>
+                    <div v-show="score.arr.length !== qustime">
+                        <p>{{ loading ? '找歌中...' : '猜不猜的到拉？？' }}</p>
+                        <p class="text-sm text-white mt-4">花費時間 {{ spendTime / 100 }}</p>
+                    </div>
                     <p v-show="score.arr.length == qustime">
                         {{
                             total / 100 / qustime < 2.5
@@ -288,10 +316,17 @@ function setQusTime(value) {
                         }}
                     </p>
                     <p v-show="score.arr.length == qustime">平均一題花了{{ (total / 100 / qustime).toFixed(2) }}秒</p>
+                    <button
+                        v-if="score.arr.length == qustime"
+                        @click="reset()"
+                        class="bg-white text-primary px-4 py-1 rounded mt-4 hover:bg-gray-100"
+                    >
+                        再測一次
+                    </button>
 
                     <div class="w-full flex flex-col items-center gap-2 p-4 lg:w-[800px]">
                         <button
-                            :disabled="isAns"
+                            :disabled="i.clicked"
                             @click="ansChoose(i)"
                             v-for="(i, idx) in ansList.arr"
                             :key="idx"
@@ -326,7 +361,7 @@ function setQusTime(value) {
                     開始
                 </button>
                 <button
-                    v-if="ansText == '答對了！！！' && nowplay.playlist !== ''"
+                    v-if="isAns && nowplay.playlist !== ''"
                     class="bg-primary text-white w-32 py-2 rounded-md hover:bg-primaryHover duration-300"
                     @click="next()"
                 >

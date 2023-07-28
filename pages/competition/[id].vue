@@ -70,14 +70,14 @@ function chooseMode(value) {
 </script>
 
 <template>
-    <div v-if="step !== 3" class="w-full flex justify-center bg-gray-200 py-8 px-4 lg:px-0">
+    <div v-if="step !== 3" class="w-full flex justify-center bg-gray-200 py-4 lg:py-8 px-4 lg:px-0">
         <h1 class="text-2xl font-bold text-gray-900">{{ title }}猜歌測驗</h1>
     </div>
-    <div v-show="step == 1" class="w-full flex justify-center bg-gray-200 py-8 px-4 lg:px-0">
-        <div class="w-full max-w-[800px] flex items-center justify-between gap-4">
+    <div v-show="step == 1" class="w-full flex justify-center items-start bg-gray-200 py-4 lg:py-8 px-4 lg:px-0">
+        <div class="w-full max-w-[800px] flex flex-col lg:flex-row items-center justify-start lg:justify-between gap-4">
             <div
                 @click="chooseMode('time')"
-                class="bg-primary hover:bg-primaryHover cursor-pointer duration-200 shadow shadow-gray-500 flex-1 flex flex-col justify-center items-center h-60 rounded"
+                class="bg-primary hover:bg-primaryHover cursor-pointer duration-200 shadow shadow-gray-500 w-full flex-1 flex flex-col justify-center items-center h-60 py-10 lg:py-20 rounded"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 fill-white mb-4" viewBox="0 0 512 512">
                     <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
@@ -89,7 +89,7 @@ function chooseMode(value) {
             </div>
             <div
                 @click="chooseMode('normal')"
-                class="bg-primary hover:bg-primaryHover cursor-pointer duration-200 shadow shadow-gray-500 flex-1 flex flex-col justify-center items-center h-60 rounded"
+                class="bg-primary hover:bg-primaryHover cursor-pointer duration-200 shadow shadow-gray-500 w-full flex-1 flex flex-col justify-center items-center h-60 py-10 lg:py-20 rounded"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 fill-white mb-4" viewBox="0 0 640 512">
                     <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
@@ -101,7 +101,7 @@ function chooseMode(value) {
             </div>
             <div
                 @click="chooseMode('all')"
-                class="bg-primary hover:bg-primaryHover cursor-pointer duration-200 shadow shadow-gray-500 flex-1 flex flex-col justify-center items-center h-60 rounded"
+                class="bg-primary hover:bg-primaryHover cursor-pointer duration-200 shadow shadow-gray-500 w-full flex-1 flex flex-col justify-center items-center h-60 py-10 lg:py-20 rounded"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 fill-white mb-4" viewBox="0 0 576 512">
                     <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
@@ -134,20 +134,12 @@ function chooseMode(value) {
             </div>
         </div>
     </div>
-    <div class="w-full flex justify-center bg-gray-200 py-8 px-4 lg:px-0">
+    <div v-if="step == 2" class="w-full flex justify-center bg-gray-200 py-8 px-4 lg:px-0">
         <div class="w-full max-w-[800px] flex items-center justify-between gap-4">
-            <button
-                v-show="step == 2"
-                @click="setStep(-1)"
-                class="bg-primary hover:bg-primaryHover text-white w-full rounded py-2"
-            >
+            <button @click="setStep(-1)" class="bg-primary hover:bg-primaryHover text-white w-full rounded py-2">
                 上一步
             </button>
-            <button
-                v-show="step == 2"
-                @click="setStep(1)"
-                class="bg-primary hover:bg-primaryHover text-white w-full rounded py-2"
-            >
+            <button @click="setStep(1)" class="bg-primary hover:bg-primaryHover text-white w-full rounded py-2">
                 我瞭解了
             </button>
         </div>

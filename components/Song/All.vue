@@ -1,4 +1,5 @@
 <script setup>
+const router = useRouter()
 const props = defineProps({
     lists: {
         type: Array,
@@ -13,9 +14,10 @@ const props = defineProps({
         default: '',
     },
 })
+const status = ref(0)
 const listsHard = props.lists
 const qustime = ref(10)
-const show = ref(true)
+const show = ref(false)
 const loading = ref(false)
 
 const randomTime = ref(true)
@@ -50,9 +52,13 @@ onMounted(() => {
 
 var player
 function start() {
+    show.value = true
     if (score.arr.length == qustime.value) {
         score.arr = []
         timeTotal.value = 0
+        status.value = 2
+    } else {
+        status.value = 1
     }
     spendTime.value = 0
     theAnsValue.value = 10
@@ -76,10 +82,10 @@ function start() {
             onError: onPlayerError,
         },
     })
-    ansShow()
 }
 
 async function next() {
+    ansList.arr = []
     isAns.value = false
     if (score.arr.length == qustime.value) {
         ansText.value = ''
@@ -93,7 +99,6 @@ async function next() {
         nowplay.name = ''
         nowplay.song = ''
         nowplay.playlist = ''
-        ansList.arr = []
         score.arr.forEach((e) => {
             if (e.time / 100 <= 2.5) {
                 e.currentValue = e.value * 1.5
@@ -108,6 +113,17 @@ async function next() {
             total.value += e.currentValue
         })
         await player.destroy()
+        // router.push({
+        //     path: '/result',
+        //     query: {
+        //         total: total.value,
+        //         name: props.name,
+        //         title: props.title,
+        //         timeTotal: timeTotal.value,
+        //         qustime: qustime.value,
+        //         mode: 'all',
+        //     },
+        // })
     } else {
         ansText.value = ''
         ans.value = ''
@@ -138,6 +154,7 @@ function onPlayerStateChange(event) {
         loading.value = true
         clearInterval(timer)
     } else if (event.data == 1) {
+        ansShow()
         loading.value = false
         timer = setInterval(() => {
             spendTime.value++
@@ -170,7 +187,6 @@ function changeFrom() {
 }
 
 function ansShow() {
-    ansList.arr = []
     const nextList = listsHard.filter((e) => e.SongID !== nowplay.playlist)
     while (ansList.arr.length < 3) {
         const A = Math.floor(Math.random() * nextList.length)
@@ -206,6 +222,10 @@ function ansChoose(i) {
 
 function setQusTime(value) {
     qustime.value = value
+}
+
+function reset() {
+    router.go(0)
 }
 </script>
 
@@ -269,26 +289,36 @@ function setQusTime(value) {
                     <h1 v-show="ansList.arr.length > 0" class="text-sm">剩餘題數：{{ qustime - score.arr.length }}</h1>
                 </div> -->
             </div>
-            <div class="w-full flex justify-between items-center">
-                <p class="text-sm text-gray-900 mt-4">花費時間 {{ spendTime / 100 }}</p>
+            <div class="w-full flex justify-between items-center mt-4">
+                <p class="text-sm text-gray-900">花費時間 {{ spendTime / 100 }}</p>
                 <h1 v-show="ansList.arr.length > 0" class="text-sm">剩餘題數：{{ qustime - score.arr.length }}</h1>
             </div>
         </div>
 
-        <div class="flex flex-col items-center space-y-4 w-full lg:w-[800px] bg-white p-4 rounded-md">
+        <div
+            :class="status == 1 ? 'p-4' : 'p-0'"
+            class="flex flex-col items-center w-full lg:w-[800px] h-full bg-white rounded-md"
+        >
             <div class="relative">
-                <div class="aspect-w-16 aspect-h-9 w-[90vw] lg:w-[800px]">
+                <div
+                    :class="status == 1 ? ' w-[90vw] lg:w-[800px]' : 'w-0'"
+                    class="aspect-w-16 aspect-h-9 w-[90vw] lg:w-[800px]"
+                >
                     <div id="player" class="w-full"></div>
                 </div>
                 <!-- <div class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"></div> -->
-                <h1 class="text-base lg:text-xl text-gray-900 font-bold mt-4">
+                <h1 v-if="status == 1" class="text-base lg:text-xl text-gray-900 font-bold my-4 px-2 lg:px-4">
                     {{ nowplay.name }} - {{ nowplay.song }}
                 </h1>
                 <div
-                    class="absolute z-50 top-0 left-0 text-white w-full h-full bg-primary flex flex-col items-center justify-center text-xl"
+                    class="fixed z-50 top-[64px] left-0 text-white w-full bg-primary h-[calc(100vh-64px)] flex flex-col items-center justify-center text-xl"
                     v-show="show"
                 >
-                    <p v-show="score.arr.length !== qustime">{{ loading ? '找歌中...' : '猜不猜的到拉？？' }}</p>
+                    <div v-show="score.arr.length !== qustime">
+                        <p>{{ loading ? '找歌中...' : '猜不猜的到拉？？' }}</p>
+                        <p class="text-sm text-white mt-4">花費時間 {{ spendTime / 100 }}</p>
+                    </div>
+
                     <!-- <p class="text-2xl font-bold mt-5">{{ ansText }}</p> -->
                     <p v-show="score.arr.length == qustime">
                         {{
@@ -309,6 +339,13 @@ function setQusTime(value) {
                         平均一題花了{{ (timeTotal / 100 / qustime).toFixed(2) }}秒
                     </p>
                     <p v-show="score.arr.length == qustime">總分為{{ Math.round(total) }}分</p>
+                    <button
+                        v-if="score.arr.length == qustime"
+                        @click="reset()"
+                        class="bg-white text-primary px-4 py-1 rounded mt-4 hover:bg-gray-100"
+                    >
+                        再測一次
+                    </button>
 
                     <div class="w-full flex flex-col items-center gap-2 p-4 lg:w-[800px]">
                         <button
@@ -316,7 +353,7 @@ function setQusTime(value) {
                             @click="ansChoose(i)"
                             v-for="(i, idx) in ansList.arr"
                             :key="idx"
-                            class="rounded-md w-full p-2 bg-gray-200 duration-200 active:scale-95 hover:cursor-pointer"
+                            class="rounded-md text-sm lg:text-base w-full p-2 bg-gray-200 duration-200 active:scale-95 hover:cursor-pointer"
                             :class="
                                 i.ans !== 2
                                     ? i.ans == 1
