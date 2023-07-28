@@ -69,6 +69,7 @@ function start() {
         playerVars: { autoplay: 1 },
         events: {
             onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange,
             onError: onPlayerError,
         },
     })
@@ -108,10 +109,34 @@ function onPlayerReady(e) {
     e.target.setVolume(90)
     e.target.playVideo()
     e.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
-    loading.value = false
-    timer = setInterval(() => {
-        spendTime.value++
-    }, 10)
+}
+function onPlayerStateChange(event) {
+    if (event.data == -1) {
+        spendTime.value = 0
+        loading.value = true
+        clearInterval(timer)
+    } else if (event.data == 0) {
+        spendTime.value = 0
+        loading.value = true
+        clearInterval(timer)
+    } else if (event.data == 1) {
+        loading.value = false
+        timer = setInterval(() => {
+            spendTime.value++
+        }, 10)
+    } else if (event.data == 2) {
+        spendTime.value = 0
+        loading.value = true
+        clearInterval(timer)
+    } else if (event.data == 3) {
+        spendTime.value = 0
+        loading.value = true
+        clearInterval(timer)
+    } else if (event.data == 5) {
+        spendTime.value = 0
+        loading.value = true
+        clearInterval(timer)
+    }
 }
 function onPlayerError(e) {
     // e.target.mute()

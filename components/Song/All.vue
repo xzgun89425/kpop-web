@@ -127,10 +127,6 @@ function onPlayerReady(e) {
     e.target.setVolume(90)
     e.target.playVideo()
     e.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
-    loading.value = false
-    timer = setInterval(() => {
-        spendTime.value++
-    }, 10)
 }
 function onPlayerStateChange(event) {
     if (event.data == -1) {
