@@ -281,7 +281,9 @@ function setQusTime(value) {
                     <div id="player" class="w-full"></div>
                 </div>
                 <!-- <div class="w-[80vw] lg:w-[560px] h-[30vh] sm:h-[50vh] lg:h-[315px]"></div> -->
-                <h1 class="text-xl text-white font-bold mt-4">{{ nowplay.name }} - {{ nowplay.song }}</h1>
+                <h1 class="text-base lg:text-xl text-gray-900 font-bold mt-4">
+                    {{ nowplay.name }} - {{ nowplay.song }}
+                </h1>
                 <div
                     class="absolute z-50 top-0 left-0 text-white w-full h-full bg-primary flex flex-col items-center justify-center text-xl"
                     v-show="show"
@@ -307,6 +309,25 @@ function setQusTime(value) {
                         平均一題花了{{ (timeTotal / 100 / qustime).toFixed(2) }}秒
                     </p>
                     <p v-show="score.arr.length == qustime">總分為{{ Math.round(total) }}分</p>
+
+                    <div class="w-full flex flex-col items-center gap-2 p-4 lg:w-[800px]">
+                        <button
+                            :disabled="i.clicked"
+                            @click="ansChoose(i)"
+                            v-for="(i, idx) in ansList.arr"
+                            :key="idx"
+                            class="rounded-md w-full p-2 bg-gray-200 duration-200 active:scale-95 hover:cursor-pointer"
+                            :class="
+                                i.ans !== 2
+                                    ? i.ans == 1
+                                        ? 'bg-green-500 text-white'
+                                        : 'bg-red-500 text-white'
+                                    : 'text-gray-900 bg-white'
+                            "
+                        >
+                            {{ i.name }} - {{ i.song }}
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -333,24 +354,6 @@ function setQusTime(value) {
                     {{ score.arr.length == qustime ? '查看結果' : '下一首' }}
                 </button>
             </div>
-        </div>
-        <div class="flex flex-col items-center gap-2 py-4 w-full lg:w-[800px]">
-            <button
-                :disabled="i.clicked"
-                @click="ansChoose(i)"
-                v-for="(i, idx) in ansList.arr"
-                :key="idx"
-                class="rounded-md w-full p-2 bg-gray-200 duration-200 active:scale-95 hover:cursor-pointer"
-                :class="
-                    i.ans !== 2
-                        ? i.ans == 1
-                            ? 'bg-green-500 text-white'
-                            : 'bg-red-500 text-white'
-                        : 'text-gray-900 bg-white'
-                "
-            >
-                {{ i.name }} - {{ i.song }}
-            </button>
         </div>
     </div>
 </template>

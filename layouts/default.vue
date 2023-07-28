@@ -3,19 +3,19 @@
 <template>
     <div class="bg-gray-100 NotoSansTC">
         <header
-            class="bg-gradient-to-br from-sky-500 to-cyan-500 w-full text-white flex justify-between items-center h-16 px-10 sticky top-0 left-0 z-50"
+            class="bg-gradient-to-br from-sky-500 to-cyan-500 w-full text-white flex justify-between items-center h-16 px-4 lg:px-10 sticky top-0 left-0 z-50"
         >
             <NuxtLink to="/">
-                <img src="/img/kelywhy.png" class="h-8" alt="" />
+                <img src="/img/kelywhy.png" class="h-4 lg:h-8" alt="" />
             </NuxtLink>
-            <ul class="text-lg flex items-center gap-4">
-                <li class="p-3 border-b-2 border-white/0 duration-200 hover:border-white">
+            <ul class="text-base lg:text-lg flex items-center gap-4">
+                <li class="p-2 border-b-2 border-white/0 duration-200 hover:border-white">
                     <NuxtLink to="/">首頁</NuxtLink>
                 </li>
-                <li class="p-3 border-b-2 border-white/0 duration-200 hover:border-white">
+                <li class="p-2 border-b-2 border-white/0 duration-200 hover:border-white">
                     <NuxtLink to="/competition">小測驗</NuxtLink>
                 </li>
-                <li class="p-3 border-b-2 border-white/0 duration-200 hover:border-white">
+                <li class="p-2 border-b-2 border-white/0 duration-200 hover:border-white">
                     <NuxtLink to="/learn">學習資料</NuxtLink>
                 </li>
             </ul>
