@@ -52,7 +52,9 @@ function onPlayerStateChange(e) {
             >玩耍
         </div>
         <button @click="start()">看萌獸</button>
-        <div id="player"></div>
+        <div class="aspect-w-16 aspect-h-9 w-full">
+            <div id="player"></div>
+        </div>
     </div>
 </template>
 

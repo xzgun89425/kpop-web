@@ -153,7 +153,7 @@ function reset() {
             {{ title }}猜歌測驗 {{ mode == 'time' ? '時間' : mode == 'normal' ? '一般' : '綜合' }}模式
         </p>
         <div class="w-full h-full flex flex-col items-center bg-white m-2 lg:m-4 pb-4 lg:pb-8">
-            <p v-show="score.length == qustime" class="text-2xl lg:text-4xl text-primary my-4 font-semibold">
+            <p v-show="score.length == qustime" class="text-xl lg:text-2xl text-primary px-4 my-4 font-semibold">
                 {{ `你是${name}${scoreRules}` }}！
             </p>
             <div
