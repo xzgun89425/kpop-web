@@ -139,6 +139,7 @@ function onPlayerReady(e) {
 }
 function onPlayerStateChange(event) {
     if (event.data == -1) {
+        event.target.mute()
         if (props.mode !== 'normal') {
             spendTime.value = 0
             clearInterval(timer)
@@ -155,8 +156,6 @@ function onPlayerStateChange(event) {
             event.target.unMute()
             event.target.setVolume(100)
         }
-
-        console.log(event.target)
         // event.target.playVideo()
         // event.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
         ansShow()
@@ -167,12 +166,16 @@ function onPlayerStateChange(event) {
             }, 10)
         }
     } else if (event.data == 2) {
+        // event.target.mute()
+        ansList.arr = []
         if (props.mode !== 'normal') {
             spendTime.value = 0
             clearInterval(timer)
         }
         loading.value = true
     } else if (event.data == 3) {
+        event.target.mute()
+        ansList.arr = []
         if (props.mode !== 'normal') {
             spendTime.value = 0
             clearInterval(timer)
