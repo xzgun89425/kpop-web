@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
+    "html2canvas": "^1.4.1",
     "pinia": "^2.1.4"
   }
 }

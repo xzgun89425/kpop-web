@@ -1,6 +1,11 @@
 <script setup>
+import html2canvas from 'html2canvas'
 const router = useRouter()
 const props = defineProps({
+    title: {
+        type: String,
+        default: '',
+    },
     total: {
         type: Number,
         default: 0,
@@ -91,8 +96,51 @@ function sencondGoal(s) {
         return 0.5
     }
 }
+function levelBGColors(level) {
+    switch (level) {
+        case '菁英':
+            return 'bg-gradient-to-br from-indigo-500 to-cyan-500'
+        case '大師':
+            return 'bg-gradient-to-br from-violet-500 to-fuchsia-500'
+        case '金牌':
+            return 'bg-gradient-to-br from-amber-400 to-yellow-400'
+        case '銀牌':
+            return 'bg-gradient-to-br from-slate-400 to-zinc-400'
+        case '銅牌':
+            return 'bg-gradient-to-br from-orange-800 to-amber-700'
+        case '菜雞':
+            return 'bg-gradient-to-br from-green-400 to-emerald-400'
+        default:
+            break
+    }
+}
+function levelTextColors(level) {
+    switch (level) {
+        case '菁英':
+            return 'text-indigo-500'
+        case '大師':
+            return 'text-violet-500'
+        case '金牌':
+            return 'text-amber-400'
+        case '銀牌':
+            return 'text-slate-400'
+        case '銅牌':
+            return 'text-orange-800'
+        case '菜雞':
+            return 'text-green-400'
+        default:
+            break
+    }
+}
 
-function print() {}
+function print() {
+    html2canvas(document.querySelector('#capture')).then(function (canvas) {
+        let a = document.createElement('a')
+        a.href = canvas.toDataURL('result/jpeg', 1).replace('result/jpeg', 'result/octet-stream')
+        a.download = 'result.jpg'
+        a.click()
+    })
+}
 
 function reset() {
     router.go(0)
@@ -100,82 +148,81 @@ function reset() {
 </script>
 
 <template>
-    <!-- ALL-->
-    <div v-if="mode == 'all'">
-        <p>
-            {{
-                Math.round(total) >= 135
-                    ? `你是${name}菁英`
-                    : Math.round(total) >= 100
-                    ? `你是${name}大師`
-                    : Math.round(total) >= 75
-                    ? `你是${name}金牌`
-                    : Math.round(total) >= 60
-                    ? `你是${name}銀牌`
-                    : Math.round(total) >= 25
-                    ? `你是${name}銅牌`
-                    : `你是${name}菜雞`
-            }}
+    <div id="capture" class="flex flex-col items-center p-4 w-full max-w-[450px] h-full bg-primary">
+        <p class="text-[18px] lg:text-[24px] text-white mb-2">
+            {{ title }}猜歌測驗 {{ mode == 'time' ? '時間' : mode == 'normal' ? '一般' : '綜合' }}模式
         </p>
-        <p>平均一題花了{{ (timeTotal / 100 / qustime).toFixed(2) }}秒</p>
-        <p>總分為{{ Math.round(total) }}分</p>
-    </div>
-    <!-- Time -->
-    <div class="w-full h-full flex flex-col items-center bg-white m-2 lg:m-4 pb-4 lg:pb-8">
-        <p v-show="score.length == qustime" class="text-2xl lg:text-4xl text-primary my-4 font-semibold">
-            {{ `你是${name}${scoreRules}` }}！
-        </p>
-        <div
-            :class="mode == 'normal' ? 'items-center' : 'items-start'"
-            class="w-full flex justify-between h-full p-4 text-sm lg:text-base"
-        >
-            <div class="text-gray-900">
-                <h1 class="mb-2">答題記錄</h1>
-                <ul v-if="mode == 'all'">
-                    <li v-for="(i, idx) in score" :key="idx">
-                        第{{ idx + 1 }}題：{{ i.time / 100 }}<span class="text-xs"> 秒</span> |
-                        {{ Math.floor(i.value * sencondGoal(i.time)) }}<span class="text-xs"> 分 </span>
-                        <span class="text-xs">({{ sencondGoal(i.time) }})</span>
-                    </li>
-                </ul>
-                <ul v-if="mode == 'time'">
-                    <li v-for="(i, idx) in score" :key="idx">
-                        第{{ idx + 1 }}題：{{ i / 100 }}<span class="text-xs">秒</span>
-                    </li>
-                </ul>
-                <ul v-if="mode == 'normal'">
-                    <li v-for="(i, idx) in score" :key="idx">
-                        第{{ idx + 1 }}題：{{ i }}<span class="text-xs">分</span>
-                    </li>
-                </ul>
-
-                <div v-if="mode == 'all'" class="mt-2 border-t border-gray-400 pt-2">
-                    總得分：{{ Math.round(total) }}分
-                </div>
-                <div v-if="mode == 'normal'" class="mt-2 border-t border-gray-400 pt-2">
-                    總得分：{{ total }}<span class="text-xs">分</span>
-                </div>
-                <div v-if="mode == 'time'" class="mt-2 border-t border-gray-400 pt-2">
-                    總秒數：{{ timeTotal / 100 }}
-                    <span v-show="mistakeTime > 0" class="text-red-500"
-                        >+{{ mistakeTime / 100 }}秒<span class="text-xs">(錯{{ mistakeTime / 200 }}次)</span></span
-                    >
-                </div>
-            </div>
+        <div class="w-full h-full flex flex-col items-center bg-white m-2 lg:m-4 pb-4 lg:pb-8">
+            <p v-show="score.length == qustime" class="text-2xl lg:text-4xl text-primary my-4 font-semibold">
+                {{ `你是${name}${scoreRules}` }}！
+            </p>
             <div
-                class="flex flex-col w-1/2 h-full gap-4"
-                :class="mode == 'normal' ? 'items-center justify-center' : 'items-end justify-between'"
+                :class="mode == 'normal' ? 'items-center' : 'items-start'"
+                class="w-full flex justify-between h-full p-4 text-sm lg:text-base"
             >
-                <p v-show="score.length == qustime && mode !== 'normal'">平均 {{ sumSencond }}秒/題</p>
-                <div class="bg-primary rounded-full p-4">
-                    <div class="flex justify-center items-center rounded-full w-[100px] h-[100px] bg-white text-lg">
-                        {{ scoreRules }}
+                <div class="text-gray-900">
+                    <h1 class="mb-2">答題記錄</h1>
+                    <ul v-if="mode == 'all'">
+                        <li v-for="(i, idx) in score" :key="idx">
+                            第{{ idx + 1 }}題：{{ i.time / 100 }}<span class="text-xs"> 秒</span> |
+                            {{ Math.floor(i.value * sencondGoal(i.time)) }}<span class="text-xs"> 分 </span>
+                            <span class="text-xs">({{ sencondGoal(i.time) }})</span>
+                        </li>
+                    </ul>
+                    <ul v-if="mode == 'time'">
+                        <li v-for="(i, idx) in score" :key="idx">
+                            第{{ idx + 1 }}題：{{ i / 100 }}<span class="text-xs">秒</span>
+                        </li>
+                    </ul>
+                    <ul v-if="mode == 'normal'">
+                        <li v-for="(i, idx) in score" :key="idx">
+                            第{{ idx + 1 }}題：{{ i }}<span class="text-xs">分</span>
+                        </li>
+                    </ul>
+
+                    <div v-if="mode == 'all'" class="mt-2 border-t border-gray-400 pt-2">
+                        總得分：{{ Math.round(total) }}分
+                    </div>
+                    <div v-if="mode == 'normal'" class="mt-2 border-t border-gray-400 pt-2">
+                        總得分：{{ total }}<span class="text-xs">分</span>
+                    </div>
+                    <div v-if="mode == 'time'" class="mt-2 border-t border-gray-400 pt-2">
+                        總秒數：{{ timeTotal / 100 }}
+                        <span v-show="mistakeTime > 0" class="text-red-500">+{{ mistakeTime / 100 }}秒</span>
+                    </div>
+                </div>
+                <div
+                    class="flex flex-col w-1/2 h-full gap-4"
+                    :class="mode == 'normal' ? 'items-center justify-center' : 'items-end justify-between'"
+                >
+                    <p v-show="score.length == qustime && mode !== 'normal'">平均 {{ sumSencond }}秒/題</p>
+                    <div class="text-center">
+                        <div :class="levelBGColors(scoreRules)" class="rounded-full p-2.5">
+                            <div
+                                class="img w-[80px] lg:w-[100px] h-[80px] lg:h-[100px] bg-[url('/img/female/karina.jpg')]"
+                            ></div>
+                        </div>
+                        <p :class="levelTextColors(scoreRules)" class="text-base font-bold mt-2">{{ scoreRules }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <button @click="reset()" class="bg-white text-primary px-4 py-1 rounded mt-4 hover:bg-gray-100">再測一次</button>
+    <div class="w-full max-w-[450px] flex justify-between">
+        <button @click="reset()" class="bg-white text-primary px-4 py-1 rounded mt-4 hover:bg-gray-100">
+            再測一次
+        </button>
+        <button @click="print()" class="bg-primary text-white px-4 py-1 rounded mt-4 hover:bg-primaryHover">
+            儲存結果
+        </button>
+    </div>
 </template>
 
-<style></style>
+<style>
+.img {
+    object-fit: cover;
+    border-radius: 9999px;
+    background-position: center;
+    background-size: cover;
+}
+</style>

@@ -275,22 +275,21 @@ function setQusTime(value) {
             </div>
         </div> -->
 
-        <h1 class="text-2xl font-bold text-gray-900">{{ title }}猜歌測驗 {{ mode }}</h1>
+        <h1 v-if="status !== 2" class="text-2xl font-bold text-gray-900">
+            {{ title }}猜歌測驗 {{ mode == 'time' ? '時間' : mode == 'normal' ? '一般' : '綜合' }}模式
+        </h1>
 
-        <div
-            v-show="status == 2"
-            class="flex flex-col items-center p-4 w-full max-w-[450px] h-full bg-primary rounded-md m-4"
-        >
-            <Result
-                :total="total"
-                :timeTotal="timeTotal"
-                :qustime="qustime"
-                :name="name"
-                :score="score.arr"
-                :mode="mode"
-                :mistakeTime="mistakeTime"
-            ></Result>
-        </div>
+        <Result
+            v-if="status == 2"
+            :title="title"
+            :total="total"
+            :timeTotal="timeTotal"
+            :qustime="qustime"
+            :name="name"
+            :score="score.arr"
+            :mode="mode"
+            :mistakeTime="mistakeTime"
+        ></Result>
 
         <div v-if="status !== 2" class="w-full lg:w-[800px] my-4">
             <div class="flex justify-between w-full items-center gap-2 text-sm text-gray-900">
