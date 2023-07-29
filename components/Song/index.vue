@@ -174,6 +174,8 @@ function onPlayerStateChange(event) {
             spendTime.value = 0
             clearInterval(timer)
         }
+        event.target.playVideo()
+        event.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
         loading.value = true
     } else if (event.data == 3) {
         console.log('loading')
