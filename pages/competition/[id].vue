@@ -71,7 +71,7 @@ function chooseMode(value) {
 
 <template>
     <div v-if="step !== 3" class="w-full flex justify-center bg-gray-200 py-4 lg:py-8 px-4 lg:px-0">
-        <h1 class="text-2xl font-bold text-gray-900">{{ title }}猜歌測驗 暫停測試</h1>
+        <h1 class="text-2xl font-bold text-gray-900">{{ title }}猜歌測驗</h1>
     </div>
     <div v-show="step == 1" class="w-full flex justify-center items-start bg-gray-200 py-4 lg:py-8 px-4 lg:px-0">
         <div class="w-full max-w-[800px] flex flex-col lg:flex-row items-center justify-start lg:justify-between gap-4">
