@@ -132,7 +132,6 @@ async function next() {
 
 let timer
 function onPlayerReady(e) {
-    console.log('ready')
     e.target.mute()
     // e.target.setVolume(90)
     e.target.playVideo()
@@ -140,7 +139,6 @@ function onPlayerReady(e) {
 }
 function onPlayerStateChange(event) {
     if (event.data == -1) {
-        console.log('unStart')
         if (props.mode !== 'normal') {
             spendTime.value = 0
             clearInterval(timer)
@@ -153,13 +151,10 @@ function onPlayerStateChange(event) {
         }
         loading.value = true
     } else if (event.data == 1) {
-        console.log('playing')
         if (event.target.isMuted()) {
             event.target.unMute()
             event.target.setVolume(100)
         }
-        // event.target.playVideo()
-        // event.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
         ansShow()
         loading.value = false
         if (props.mode !== 'normal') {
@@ -168,18 +163,12 @@ function onPlayerStateChange(event) {
             }, 10)
         }
     } else if (event.data == 2) {
-        console.log('pause')
-        ansList.arr = []
         if (props.mode !== 'normal') {
             spendTime.value = 0
             clearInterval(timer)
         }
-        event.target.playVideo()
-        event.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
         loading.value = true
     } else if (event.data == 3) {
-        console.log('loading')
-        ansList.arr = []
         if (props.mode !== 'normal') {
             spendTime.value = 0
             clearInterval(timer)
