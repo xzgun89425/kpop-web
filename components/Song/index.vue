@@ -18,6 +18,7 @@ const props = defineProps({
         default: '',
     },
 })
+
 const status = ref(0)
 const listsHard = props.lists
 const qustime = ref(10)
@@ -29,6 +30,9 @@ const spendTime = ref(0)
 const theAnsValue = ref(10)
 
 const ansList = reactive({
+    arr: [],
+})
+const qusArr = reactive({
     arr: [],
 })
 const score = reactive({ arr: [] })
@@ -63,13 +67,22 @@ function start() {
     spendTime.value = 0
     theAnsValue.value = 10
     loading.value = true
-    const nextList = listsHard.filter((e) => e.SongID !== nowplay.playlist)
-    const a = Math.floor(Math.random() * nextList.length)
-    const time = Math.floor(Math.random() * (nextList[a].second * 0.7)) + 1
-    nowplay.playlist = nextList[a].SongID
+
+    while (qusArr.arr.length < qustime.value) {
+        const a = Math.floor(Math.random() * listsHard.length)
+        if (qusArr.arr.filter((e) => e.SongID == listsHard[a].SongID).length == 0) {
+            qusArr.arr.push(listsHard[a])
+        }
+    }
+    findSong()
+}
+
+function findSong() {
+    const time = Math.floor(Math.random() * (qusArr.arr[score.arr.length].second * 0.7)) + 1
+    nowplay.playlist = qusArr.arr[score.arr.length].SongID
     nowplay.start = randomTime.value ? String(time) : 1
-    nowplay.name = nextList[a].Artist
-    nowplay.song = nextList[a].SongTitle
+    nowplay.name = qusArr.arr[score.arr.length].Artist
+    nowplay.song = qusArr.arr[score.arr.length].SongTitle
 
     player = new YT.Player('player', {
         height: '390',
@@ -126,7 +139,7 @@ async function next() {
         loading.value = true
         clearInterval(timer)
         await player.destroy()
-        await start()
+        await findSong()
     }
 }
 
@@ -200,11 +213,11 @@ function ansShow() {
     const nextList = listsHard.filter((e) => e.SongID !== nowplay.playlist)
     while (ansList.arr.length < 3) {
         const A = Math.floor(Math.random() * nextList.length)
-        if (ansList.arr.filter((e) => e.song == nextList[A].SongTitle).length == 0) {
-            ansList.arr.push({ name: nextList[A].Artist, song: nextList[A].SongTitle })
+        if (ansList.arr.filter((e) => e.id == nextList[A].SongID).length == 0) {
+            ansList.arr.push({ name: nextList[A].Artist, song: nextList[A].SongTitle, id: nextList[A].SongID })
         }
     }
-    ansList.arr.push({ name: nowplay.name, song: nowplay.song })
+    ansList.arr.push({ name: nowplay.name, song: nowplay.song, id: nowplay.playlist })
     ansList.arr.forEach((e) => {
         e.ans = 2
         e.clicked = false

@@ -9,6 +9,7 @@ export const useTestStore = defineStore('test', () => {
         { id: 'anime', testName: '動漫猜歌測驗', img: 'female/anime.jpg', detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你的動漫牌位！', device: 'desktop', level: '難', name: '動漫', title: '動漫' },
         { id: 'tiktok', testName: '抖音熱門歌曲2023', img: 'group/tiktok.jpg', detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你的抖音牌位！', device: 'desktop', level: '難', name: '抖音熱門歌曲2023', title: '抖音熱門歌曲2023' },
         { id: 'kkbox', testName: 'KKBOX 歷年排行榜週冠軍歌曲', img: 'group/tiktok.jpg', detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你的抖音牌位！', device: 'desktop', level: '難', name: 'KKBOX 歷年排行榜週冠軍歌曲', title: 'KKBOX 歷年排行榜週冠軍歌曲' },
+        { id: 'kai', testName: 'KAI猜歌專屬', img: 'female/karina.jpg', detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你的抖音牌位！', device: 'desktop', level: '難', name: 'KAI猜歌專屬', title: 'KAI猜歌專屬' },
     ])
 
     return {
