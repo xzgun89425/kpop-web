@@ -132,8 +132,8 @@ async function next() {
 
 let timer
 function onPlayerReady(e) {
-    // e.target.mute()
-    e.target.setVolume(90)
+    e.target.mute()
+    // e.target.setVolume(90)
     e.target.playVideo()
     e.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
 }
@@ -151,6 +151,14 @@ function onPlayerStateChange(event) {
         }
         loading.value = true
     } else if (event.data == 1) {
+        if (event.target.isMuted()) {
+            event.target.unMute()
+            event.target.setVolume(100)
+        }
+
+        console.log(event.target)
+        // event.target.playVideo()
+        // event.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
         ansShow()
         loading.value = false
         if (props.mode !== 'normal') {
