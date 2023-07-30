@@ -186,7 +186,9 @@ function onPlayerStateChange(event) {
             event.target.unMute()
             event.target.setVolume(100)
         }
-        ansShow()
+        if (!isAns.value) {
+            ansShow()
+        }
         statusText.value = '猜不猜的到啦？'
         statusPlayer.value = 'playing'
         loading.value = false
@@ -199,6 +201,9 @@ function onPlayerStateChange(event) {
         if (props.mode !== 'normal') {
             spendTime.value = 0
             clearInterval(timer)
+        }
+        if (!isAns.value) {
+            ansList.arr = []
         }
         statusText.value = '音樂已暫停'
         statusPlayer.value = 'paused'
@@ -447,7 +452,7 @@ function play() {
                     class="bg-primary text-white w-32 py-2 rounded-md hover:bg-primaryHover duration-300"
                     @click="showAns()"
                 >
-                    {{ show ? '看答案' : '隱藏' }}
+                    {{ show ? '' : '看答案' }}
                 </button>
                 <button
                     v-if="nowplay.playlist == ''"
