@@ -50,12 +50,26 @@ const nowplay = reactive({
     song: '',
 })
 
+const statusText = ref('')
+const statusPlayer = ref('')
+const device = ref('dektop')
 onMounted(() => {
     var tag = document.createElement('script')
 
     tag.src = 'https://www.youtube.com/iframe_api'
     var firstScriptTag = document.getElementsByTagName('script')[0]
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+    //判斷裝置
+    var ua = navigator.userAgent
+    var android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1 // android
+    var iOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) // ios
+    if (android == true) {
+        device.value = 'android'
+    } else if (iOS == true) {
+        device.value = 'ios'
+    } else {
+        device.value = 'desktop'
+    }
 })
 
 var player
@@ -146,7 +160,7 @@ async function next() {
 let timer
 function onPlayerReady(e) {
     e.target.mute()
-    // e.target.setVolume(90)
+    e.target.setVolume(100)
     e.target.playVideo()
     e.target.loadVideoById({ videoId: nowplay.playlist, startSeconds: nowplay.start })
 }
@@ -156,12 +170,16 @@ function onPlayerStateChange(event) {
             spendTime.value = 0
             clearInterval(timer)
         }
+        statusText.value = '找歌中...'
+        statusPlayer.value = 'notBegin'
         loading.value = true
     } else if (event.data == 0) {
         if (props.mode !== 'normal') {
             spendTime.value = 0
             clearInterval(timer)
         }
+        statusText.value = '歌曲已結束'
+        statusPlayer.value = 'end'
         loading.value = true
     } else if (event.data == 1) {
         if (event.target.isMuted()) {
@@ -169,6 +187,8 @@ function onPlayerStateChange(event) {
             event.target.setVolume(100)
         }
         ansShow()
+        statusText.value = '猜不猜的到啦？'
+        statusPlayer.value = 'playing'
         loading.value = false
         if (props.mode !== 'normal') {
             timer = setInterval(() => {
@@ -180,12 +200,16 @@ function onPlayerStateChange(event) {
             spendTime.value = 0
             clearInterval(timer)
         }
+        statusText.value = '音樂已暫停'
+        statusPlayer.value = 'paused'
         loading.value = true
     } else if (event.data == 3) {
         if (props.mode !== 'normal') {
             spendTime.value = 0
             clearInterval(timer)
         }
+        statusText.value = '緩衝處理中...'
+        statusPlayer.value = 'loading'
         loading.value = true
     } else if (event.data == 5) {
         if (props.mode !== 'normal') {
@@ -264,6 +288,10 @@ function ansChoose(i) {
 
 function setQusTime(value) {
     qustime.value = value
+}
+
+function play() {
+    player.playVideo()
 }
 </script>
 
@@ -370,7 +398,8 @@ function setQusTime(value) {
                     v-show="show"
                 >
                     <div v-show="score.arr.length !== qustime">
-                        <p>{{ loading ? '找歌中...' : '猜不猜的到拉？？' }}</p>
+                        <p>{{ statusText }}</p>
+                        <!-- <p>{{ loading ? '找歌中...' : '猜不猜的到拉？？' }}</p> -->
                         <p v-if="mode !== 'normal'" class="text-sm text-white mt-4">花費時間 {{ spendTime / 100 }}</p>
                     </div>
 
@@ -390,6 +419,23 @@ function setQusTime(value) {
                             "
                         >
                             {{ i.name }} - {{ i.song }}
+                        </button>
+                    </div>
+
+                    <div class="w-full flex justify-between lg:w-[800px] p-4 gap-4">
+                        <button
+                            @click="show = !show"
+                            v-if="isAns"
+                            class="flex-1 rounded-md bg-white px-3 py-2 text-primary"
+                        >
+                            關閉
+                        </button>
+                        <button
+                            @click="play()"
+                            v-if="statusPlayer == 'paused' && device == 'ios'"
+                            class="flex-1 rounded-md bg-white px-3 py-2 text-primary"
+                        >
+                            播放
                         </button>
                     </div>
                 </div>
