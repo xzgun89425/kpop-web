@@ -198,12 +198,12 @@ function onPlayerStateChange(event) {
         statusPlayer.value = 'playing'
         loading.value = false
     } else if (event.data == 2) {
-        if (props.mode !== 'normal') {
-            spendTime.value = 0
-            clearInterval(timer)
-        }
         if (!isAns.value) {
             ansList.arr = []
+            if (props.mode !== 'normal') {
+                spendTime.value = 0
+                clearInterval(timer)
+            }
         }
         statusText.value = '音樂已暫停'
         statusPlayer.value = 'paused'
