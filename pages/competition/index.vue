@@ -14,19 +14,21 @@ function goPage(src) {
 
 <template>
     <div class="w-full bg-gray-200 flex flex-col items-center justify-start">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-8 lg:gap-8 px-2 py-8 lg:p-8 max-w-7xl w-full">
+        <div
+            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-4 px-2 py-8 lg:p-8 w-full"
+        >
             <div
                 v-for="i in testlist"
                 :key="i.id"
                 class="col-span-1 bg-white h-auto p-4 rounded relative flex flex-col justify-between shadow-md shadow-gray-300"
             >
-                <span
+                <!-- <span
                     v-for="(item, idx) in devices"
                     :key="idx"
                     v-show="item.device == i.device"
                     class="absolute -top-4 left-[calc(50%-40px)] bg-primary text-white text-sm px-3 py-1 rounded-full shadow-md shadow-gray-300"
                     >{{ item.text }}</span
-                >
+                > -->
                 <!-- <span
                     :class="i.level == '易' ? 'bg-green-500' : i.level == '中' ? 'bg-amber-500' : 'bg-red-500'"
                     class="absolute -top-2 -left-2 z-30 text-white rounded-full text-lg font-bold w-10 h-10 flex justify-center items-center shadow-md shadow-gray-300"
