@@ -16,6 +16,7 @@ function start() {
         width: '640',
         playerVars: {
             autoplay: 1,
+            controls: 0,
         },
         events: {
             onReady: onPlayerReady,

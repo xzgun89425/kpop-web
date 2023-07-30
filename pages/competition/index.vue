@@ -44,7 +44,7 @@ function goPage(src) {
                     <h1
                         class="text-gray-900 text-base lg:text-xl font-bold my-4 h-12 lg:h-14 text-ellipsis overflow-hidden"
                     >
-                        {{ i.testName }}
+                        {{ i.testName }}猜歌
                     </h1>
                     <p class="text-gray-500 text-sm truncate">{{ i.detail }}</p>
                 </div>
