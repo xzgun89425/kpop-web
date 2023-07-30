@@ -36,6 +36,21 @@ const props = defineProps({
     },
 })
 
+const device = ref('desktop')
+onMounted(() => {
+    //判斷裝置
+    var ua = navigator.userAgent
+    var android = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1 // android
+    var iOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) // ios
+    if (android == true) {
+        device.value = 'android'
+    } else if (iOS == true) {
+        device.value = 'ios'
+    } else {
+        device.value = 'desktop'
+    }
+})
+
 const level = ref('')
 const scoreRules = computed(() => {
     switch (props.mode) {
@@ -212,7 +227,11 @@ function reset() {
         <button @click="reset()" class="bg-white text-primary px-4 py-1 rounded mt-4 hover:bg-gray-100">
             再測一次
         </button>
-        <button @click="print()" class="bg-primary text-white px-4 py-1 rounded mt-4 hover:bg-primaryHover">
+        <button
+            v-if="device == 'desktop'"
+            @click="print()"
+            class="bg-primary text-white px-4 py-1 rounded mt-4 hover:bg-primaryHover"
+        >
             儲存結果
         </button>
     </div>

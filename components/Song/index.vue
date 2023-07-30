@@ -188,15 +188,15 @@ function onPlayerStateChange(event) {
         }
         if (!isAns.value) {
             ansShow()
+            if (props.mode !== 'normal') {
+                timer = setInterval(() => {
+                    spendTime.value++
+                }, 10)
+            }
         }
         statusText.value = '猜不猜的到啦？'
         statusPlayer.value = 'playing'
         loading.value = false
-        if (props.mode !== 'normal') {
-            timer = setInterval(() => {
-                spendTime.value++
-            }, 10)
-        }
     } else if (event.data == 2) {
         if (props.mode !== 'normal') {
             spendTime.value = 0
