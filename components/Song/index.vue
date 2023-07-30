@@ -402,7 +402,8 @@ function play() {
                     class="fixed z-50 top-[64px] left-0 text-white w-full bg-primary h-[calc(100vh-64px)] flex flex-col items-center justify-center text-xl"
                     v-show="show"
                 >
-                    <div v-show="score.arr.length !== qustime">
+                    <div v-show="score.arr.length !== qustime" class="text-center">
+                        <p>第 {{ score.arr.length + 1 }} 題</p>
                         <p>{{ statusText }}</p>
                         <!-- <p>{{ loading ? '找歌中...' : '猜不猜的到拉？？' }}</p> -->
                         <p v-if="mode !== 'normal'" class="text-sm text-white mt-4">花費時間 {{ spendTime / 100 }}</p>
