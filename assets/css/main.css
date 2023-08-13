@@ -31,10 +31,11 @@ html {
 }
 
 @layer components {
-    .bg-primary {
-      @apply bg-gradient-to-br from-sky-500 to-cyan-500;
-    }
-    .bg-primaryHover {
-      @apply bg-gradient-to-br from-sky-600 to-cyan-600;
-    }
+  .bg-primary {
+    @apply bg-gradient-to-br from-sky-500 to-cyan-500;
   }
+  .bg-primaryHover {
+    @apply bg-gradient-to-br from-sky-600 to-cyan-600;
+  }
+}
+

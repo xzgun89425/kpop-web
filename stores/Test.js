@@ -13,6 +13,7 @@ export const useTestStore = defineStore('test', () => {
         { id: 'sweetjohn', testName: '甜約翰', img: 'group/sweetjohn.jpg', detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你的甜牌位！', device: 'desktop', level: '難', name: '甜約翰', title: '甜約翰' },
         { id: 'china-rap', testName: '中國新說唱', img: 'group/china-rap.jpg', detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你的甜牌位！', device: 'desktop', level: '難', name: '中國新說唱', title: '中國新說唱' },
         { id: 'billie-eilish', testName: 'Billie Eilish', img: 'female/billie-eilish.jpg', detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你的甜牌位！', device: 'desktop', level: '難', name: 'Billie Eilish', title: 'Billie Eilish' },
+        { id: 'lauv', testName: 'Lauv', img: 'male/lauv.jpg', detail: '測驗聽到歌曲後你能多快選出正確的歌曲名稱，考驗平時的學習量。依照題數及總時間去計算平均每題的猜題時間，得出你的甜牌位！', device: 'desktop', level: '難', name: 'Lauv', title: 'Lauv' },
     ])
 
     return {

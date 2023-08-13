@@ -8,7 +8,7 @@ const step = ref(1)
 const mode = ref('')
 const loading = ref(true)
 
-const { data } = await useFetch(`/api/${route.params.id}`)
+const { data } = await useFetch(`/api/song/${route.params.id}`)
 lists.arr = data.value.data[0].SongList
 
 const rules = reactive([
