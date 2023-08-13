@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import "virtual:svg-icons-register";
+// import "virtual:svg-icons-register";
 const open = ref(true);
 
 function showSideBar() {
