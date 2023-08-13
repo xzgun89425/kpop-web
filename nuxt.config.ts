@@ -21,9 +21,9 @@ export default defineNuxtConfig({
           },
       ],
   ],
-  "nitro": {
-    "plugins": ["~/server/db/index.js"],
-  }, 
+  // "nitro": {
+  //   "plugins": ["~/server/db/index.js"],
+  // }, 
   content: {
     // https://content.nuxtjs.org/api/configuration
   },
