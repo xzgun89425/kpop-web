@@ -4,7 +4,7 @@ import "swiper/css";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css/pagination";
 
-const { data: group } = await useFetch("/api/idle");
+// const { data: group } = await useFetch("/api/idle");
 
 const banners = reactive([
   {
@@ -71,7 +71,7 @@ function golink(link) {
     </div>
   </div>
 
-  <div class="w-full flex justify-center bg-gray-200">
+  <!-- <div class="w-full flex justify-center bg-gray-200">
     <div class="w-full max-w-[1440px] p-4">
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
         <div class="bg-white" v-for="i in group" :key="i">
@@ -84,7 +84,7 @@ function golink(link) {
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style>

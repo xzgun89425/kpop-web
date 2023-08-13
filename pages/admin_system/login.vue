@@ -2,7 +2,7 @@
 definePageMeta({
   layout: "login",
 });
-const { data: memberList } = await useFetch("/api/member");
+// const { data: memberList } = await useFetch("/api/member");
 
 const members = reactive({
   account: "",
@@ -15,15 +15,14 @@ const resetMember = () => {
 };
 
 const createMember = async () => {
-  const res = await $fetch("/api/admin/login", {
-    method: "POST",
-    body: {
-      account: members.account,
-      password: members.password,
-    },
-  });
-
-  console.log(res);
+  // const res = await $fetch("/api/admin/login", {
+  //   method: "POST",
+  //   body: {
+  //     account: members.account,
+  //     password: members.password,
+  //   },
+  // });
+  // console.log(res);
 };
 </script>
 
