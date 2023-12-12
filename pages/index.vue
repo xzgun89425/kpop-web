@@ -69,6 +69,7 @@ function golink(link) {
         </SwiperSlide>
       </Swiper>
     </div>
+    <SongSpotify />
   </div>
 
   <!-- <div class="w-full flex justify-center bg-gray-200">

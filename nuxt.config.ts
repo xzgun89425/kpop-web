@@ -2,6 +2,18 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import path from 'path'
 
 export default defineNuxtConfig({
+  app: {
+    head: {
+        viewport: 'width=device-width, initial-scale=1',
+        title: '28遊戲',
+        meta: [
+            { name: 'description', content: '28遊戲' },
+            { name: 'theme-color', content: '#06b6d4' },
+            { property: 'og:title', content: '28遊戲' },
+            { property: 'og:description', content: '28遊戲' },
+        ],
+    },
+},
   css: ['~/assets/css/main.css'],
   postcss: {
     plugins: {
