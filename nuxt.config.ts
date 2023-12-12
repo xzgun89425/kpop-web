@@ -8,7 +8,6 @@ export default defineNuxtConfig({
         title: '猜歌',
         meta: [
             { name: 'description', content: '猜歌' },
-            { name: 'theme-color', content: 'var(--theme)' },
             { property: 'og:title', content: '猜歌' },
             { property: 'og:description', content: '猜歌' },
         ],
