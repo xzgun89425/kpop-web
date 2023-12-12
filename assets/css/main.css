@@ -5,7 +5,9 @@
 html {
     background-color: #e5e7eb;
 }
-
+:root {
+  --theme: linear-gradient(#F9F9F900,#0D77F4);
+}
 .Optima {
   font-family: 'Optima';
 }

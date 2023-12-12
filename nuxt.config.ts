@@ -5,12 +5,12 @@ export default defineNuxtConfig({
   app: {
     head: {
         viewport: 'width=device-width, initial-scale=1',
-        title: '28遊戲',
+        title: '猜歌',
         meta: [
-            { name: 'description', content: '28遊戲' },
-            { name: 'theme-color', content: '#06b6d4' },
-            { property: 'og:title', content: '28遊戲' },
-            { property: 'og:description', content: '28遊戲' },
+            { name: 'description', content: '猜歌' },
+            { name: 'theme-color', content: 'var(--theme)' },
+            { property: 'og:title', content: '猜歌' },
+            { property: 'og:description', content: '猜歌' },
         ],
     },
 },
